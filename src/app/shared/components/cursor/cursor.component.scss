@@ -1,0 +1,62 @@
+/* ==========================================================================
+   Custom Crosshair Styles
+   ========================================================================== */
+
+.cursor-ring,
+.cursor-dot {
+    position: fixed;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    pointer-events: none;
+    /* Allows clicks to pass through */
+    z-index: 9999;
+    /* Always on top */
+    will-change: transform;
+    /* Hint for GPU acceleration */
+}
+
+/* 1. The Lagging Ring */
+.cursor-ring {
+    width: 30px;
+    height: 30px;
+    border: 2px solid var(--accent-color);
+    background-color: transparent;
+    transition: width 0.3s ease, height 0.3s ease, background-color 0.3s ease;
+
+    /* Initial scale centered */
+    transform: translate(-50%, -50%);
+
+    /* Neon cyan glow */
+    box-shadow: 0 0 10px rgba(0, 255, 200, 0.4);
+
+    /* Hover state: expands and fills */
+    &.hovering {
+        width: 50px;
+        height: 50px;
+        background-color: rgba(0, 255, 200, 0.1);
+        box-shadow: 0 0 20px rgba(0, 255, 200, 0.6);
+    }
+}
+
+/* 2. The Instant Dot */
+.cursor-dot {
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-color);
+    transform: translate(-50%, -50%);
+}
+
+/* Hide on mobile/touch devices */
+@media (pointer: coarse) {
+
+    .cursor-ring,
+    .cursor-dot {
+        display: none !important;
+    }
+
+    :root,
+    body {
+        cursor: auto !important;
+    }
+}

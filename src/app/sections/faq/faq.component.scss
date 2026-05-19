@@ -1,0 +1,106 @@
+/* ==========================================================================
+   FAQ Accordion Styles
+   ========================================================================== */
+
+.faq-section {
+    padding: 100px 10%;
+    position: relative;
+    z-index: 10;
+    background-color: var(--bg-color);
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.section-header {
+    text-align: left;
+    margin-bottom: 50px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 20px;
+
+    .header-glitch {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2rem;
+        color: var(--text-primary);
+        letter-spacing: 2px;
+    }
+
+    p {
+        color: var(--text-secondary);
+        font-family: 'Courier New', monospace;
+        margin-top: 10px;
+    }
+}
+
+.accordion-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.faq-item {
+    background-color: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 2px solid transparent;
+    transition: all 0.3s ease;
+
+    &.active {
+        border-left-color: var(--accent-color);
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+        background-image: linear-gradient(to right, rgba(0, 255, 200, 0.05), transparent);
+    }
+}
+
+.faq-question {
+    width: 100%;
+    text-align: left;
+    background: none;
+    border: none;
+    padding: 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    color: var(--text-primary);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    transition: color 0.3s ease;
+
+    &:hover {
+        color: var(--accent-color);
+    }
+
+    .q-text {
+        display: flex;
+        gap: 10px;
+        align-items: baseline;
+    }
+}
+
+.chevron {
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), color 0.3s ease;
+
+    &.rotated {
+        transform: rotate(180deg);
+        color: var(--accent-color);
+    }
+}
+
+.faq-answer-container {
+    /* No need to set height transitions here! Angular Animations handles it */
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+.faq-answer {
+    padding: 0 30px;
+    color: var(--text-secondary);
+    font-family: 'Courier New', monospace;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    border-top: 1px solid rgba(255, 255, 255, 0.02);
+}

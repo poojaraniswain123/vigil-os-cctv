@@ -1,1 +1,87 @@
-/* You can add global styles to this file, and also import other style files */
+html,
+body {
+    min-height: 100vh;
+    /* Changed from height: 100% */
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Barlow', sans-serif;
+
+    /* REMOVED overflow-x: hidden from here */
+
+    transition: background-color 0.4s ease, color 0.4s ease;
+    cursor: none;
+}
+
+body {
+    overflow-x: clip;
+}
+:root {
+    /* Default: Dark-Tech Industrial */
+    --bg-color: #08090d;
+    --surface-color: #1c1f2e;
+    --text-primary: #f2f5f9;
+    --text-secondary: #b0c4d8;
+    --accent-color: #00ffc8;
+    /* Neon Cyan */
+    --alert-color: #ff3366;
+    /* REC Red / Motion Amber */
+    --grid-opacity: 0.1;
+    --glow-shadow: 0 0 15px rgba(0, 255, 200, 0.4);
+}
+
+:root[data-theme="light"] {
+    /* Light: Clean Corporate Security */
+    --bg-color: #f2f5f9;
+    --surface-color: #ffffff;
+    --text-primary: #0b1f3a;
+    --text-secondary: #4a5c73;
+    --accent-color: #0057ff;
+    /* Electric Blue */
+    --alert-color: #e60000;
+    --grid-opacity: 0.05;
+    --glow-shadow: 0 4px 15px rgba(0, 87, 255, 0.2);
+}
+
+/* Base Reset & Typography */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: 'Barlow', sans-serif;
+    overflow-x: hidden;
+    transition: background-color 0.4s ease, color 0.4s ease;
+
+    /* Hides default cursor so we can use our custom crosshair later */
+    cursor: none;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Shared Utility Classes */
+.accent-text {
+    color: var(--accent-color);
+}

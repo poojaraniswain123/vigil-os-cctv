@@ -1,0 +1,187 @@
+/* ==========================================================================
+   Fake CCTV Dashboard Styles
+   ========================================================================== */
+
+.cctv-dashboard {
+    padding: 100px 10%;
+    position: relative;
+    z-index: 10;
+}
+
+.section-header {
+    text-align: left;
+    margin-bottom: 40px;
+    border-left: 4px solid var(--accent-color);
+    padding-left: 20px;
+
+    .header-glitch {
+        font-family: 'Orbitron', sans-serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 2px;
+    }
+
+    p {
+        color: var(--alert-color);
+        /* Red alert text */
+        font-family: 'Courier New', monospace;
+        margin-top: 10px;
+    }
+}
+
+/* 4-Grid Layout */
+.feed-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 20px;
+}
+
+/* Individual Camera Feed Screen */
+.feed-container {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background-color: #000;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    overflow: hidden;
+    border-radius: 4px;
+
+    /* Inner shadow for that "monitor" feel */
+    box-shadow: inset 0 0 50px rgba(0, 0, 0, 0.8);
+
+    /* Motion Alert State */
+    &.alert-active {
+        animation: alertBorder 1.5s infinite;
+    }
+}
+
+@keyframes alertBorder {
+
+    0%,
+    100% {
+        border-color: rgba(255, 51, 102, 0.2);
+        box-shadow: inset 0 0 50px rgba(255, 51, 102, 0.1);
+    }
+
+    50% {
+        border-color: var(--alert-color);
+        box-shadow: inset 0 0 80px rgba(255, 51, 102, 0.4);
+    }
+}
+
+/* The Fake Video Background */
+.feed-video-mockup {
+    position: absolute;
+    inset: 0;
+    /* An industrial, concrete-looking radial gradient */
+    background: radial-gradient(circle at 50% 40%, #1c2230 0%, #080a0f 80%);
+    opacity: 0.6;
+    z-index: 1;
+}
+
+/* CRT Static overlay */
+.feed-static {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+    z-index: 2;
+    pointer-events: none;
+    animation: staticFlicker 0.2s infinite;
+}
+
+@keyframes staticFlicker {
+    0% {
+        transform: translate(0, 0);
+    }
+
+    50% {
+        transform: translate(1px, -1px);
+    }
+
+    100% {
+        transform: translate(-1px, 1px);
+    }
+}
+
+/* HUD Overlay Elements */
+.hud-top-left,
+.hud-top-right,
+.hud-bottom,
+.motion-warning {
+    position: absolute;
+    z-index: 10;
+    font-family: 'Courier New', monospace;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+}
+
+.hud-top-left {
+    top: 15px;
+    left: 15px;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .rec-dot {
+        width: 8px;
+        height: 8px;
+        background-color: var(--alert-color);
+        border-radius: 50%;
+        animation: pulse 1s infinite;
+    }
+}
+
+.hud-top-right {
+    top: 15px;
+    right: 15px;
+    color: var(--text-primary);
+}
+
+.hud-crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: rgba(255, 255, 255, 0.2);
+    font-size: 3rem;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.hud-bottom {
+    bottom: 15px;
+    left: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+
+    .cam-id {
+        font-weight: bold;
+        color: var(--accent-color);
+    }
+
+    .cam-loc {
+        color: var(--text-secondary);
+        font-size: 0.75rem;
+    }
+}
+
+.motion-warning {
+    bottom: 15px;
+    right: 15px;
+    background-color: rgba(255, 51, 102, 0.2);
+    color: var(--alert-color);
+    padding: 4px 8px;
+    border: 1px solid var(--alert-color);
+    animation: pulse 1s infinite;
+    font-weight: bold;
+}
+
+@media(max-width: 768px) {
+    .feed-grid {
+        grid-template-columns: 1fr;
+    }
+}

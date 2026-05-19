@@ -1,0 +1,25 @@
+<section class="vision-wrapper">
+
+    <div class="sticky-container">
+
+        <div class="core-reveal">
+            <div class="target-lock" [style.transform]="'scale(' + (0.5 + scrollProgress() * 0.5) + ')'">⌖</div>
+            <h2 [style.opacity]="scrollProgress()">UNCOMPROMISED<br><span class="accent-text">PRECISION</span></h2>
+            <p [style.opacity]="scrollProgress() * scrollProgress()">
+                Our hardware doesn't just record. It analyzes, tracks, and neutralizes blind spots in real-time across
+                your entire network.
+            </p>
+        </div>
+
+        <div class="lens-chassis" [style.--progress]="scrollProgress()">
+
+            @for (blade of blades; track blade) {
+            <div class="giant-blade" [style.--i]="blade">
+                <div class="blade-edge"></div>
+            </div>
+            }
+
+        </div>
+
+    </div>
+</section>

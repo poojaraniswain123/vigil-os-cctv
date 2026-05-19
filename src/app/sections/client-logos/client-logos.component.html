@@ -1,0 +1,27 @@
+<section class="logos-section">
+    <div class="section-header">
+        <span class="crosshair-icon">⌖</span>
+        <h4>TRUSTED BY 500+ ENTERPRISE NETWORKS</h4>
+        <div class="header-line"></div>
+    </div>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-track track-left">
+            @for (logo of row1Logos; track $index) {
+            <div class="logo-item">
+                <span class="logo-icon">▲</span> {{ logo }}
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="marquee-wrapper">
+        <div class="marquee-track track-right">
+            @for (logo of row2Logos; track $index) {
+            <div class="logo-item">
+                <span class="logo-icon">❖</span> {{ logo }}
+            </div>
+            }
+        </div>
+    </div>
+</section>

@@ -1,0 +1,114 @@
+/* ==========================================================================
+   Giant Scroll-Linked Lens Component
+   ========================================================================== */
+
+/* Forces the user to scroll for a long time */
+.vision-wrapper {
+    position: relative;
+    height: 300vh;
+    width: 100vw;
+    background-color: var(--bg-color);
+    z-index: 20;
+    /* Keep it above previous sections */
+}
+
+/* Pins the visual content to the screen */
+.sticky-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100vw;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: radial-gradient(circle at center, #0d121c 0%, #000000 100%);
+}
+
+/* --- THE REVEALED CONTENT --- */
+.core-reveal {
+    position: absolute;
+    z-index: 1;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    padding: 0 20px;
+
+    .target-lock {
+        font-size: 5rem;
+        color: var(--accent-color);
+        opacity: 0.8;
+        margin-bottom: 20px;
+        font-weight: 100;
+    }
+
+    h2 {
+        font-size: clamp(3rem, 6vw, 5rem);
+        line-height: 1.1;
+        margin-bottom: 20px;
+        color: var(--text-primary);
+        text-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
+    }
+
+    p {
+        font-size: 1.2rem;
+        color: var(--text-secondary);
+        font-family: 'Courier New', monospace;
+        line-height: 1.6;
+    }
+}
+
+/* --- THE MECHANICAL BLADES --- */
+.lens-chassis {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    pointer-events: none;
+}
+
+.giant-blade {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    /* Make them massive so they cover the screen */
+    width: 120vmax;
+    height: 120vmax;
+    background-color: #08090d;
+    /* Pitch black */
+
+    /* Hinge them exactly at the center of the screen */
+    transform-origin: 0 0;
+
+    /* MATHEMATICAL MAGIC: 
+     This creates a perfect 60-degree triangle wedge! 
+     (Tan(60deg) = 1.732) */
+    clip-path: polygon(0 0, 175% 100%, 0 100%);
+
+    /* 1. Base rotation aligns the 6 wedges into a perfect circle
+     2. Translate pushes them outward as you scroll
+     3. Rotate adds a mechanical twisting aperture effect */
+    transform:
+        rotate(calc(var(--i) * 60deg)) translate(calc(var(--progress) * 15vmax), calc(var(--progress) * 25vmax)) rotate(calc(var(--progress) * -15deg));
+
+    will-change: transform;
+
+    /* The glowing edge of the blade */
+    .blade-edge {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 3px;
+        height: 100%;
+        background: var(--accent-color);
+        box-shadow: 0 0 15px var(--accent-color);
+
+        /* Fades the laser line out towards the edges of the screen */
+        mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 70%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 70%);
+    }
+}

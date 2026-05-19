@@ -1,0 +1,48 @@
+<section class="hero-container" [@contentFadeIn]>
+    <div class="scanline"></div>
+
+    @if (!isBooted()) {
+    <div class="boot-terminal">
+        <div class="terminal-box">
+            <span class="prompt">> </span>{{ bootText() }}
+            <span class="cursor-blink">_</span>
+        </div>
+    </div>
+    }
+
+    <div class="aperture-overlay" [class.open]="isBooted()">
+        <div class="blade b1"></div>
+        <div class="blade b2"></div>
+        <div class="blade b3"></div>
+        <div class="blade b4"></div>
+        <div class="blade b5"></div>
+        <div class="blade b6"></div>
+    </div>
+
+    <div class="hud-wrapper">
+        <div class="hud-top">
+            <div class="rec-badge hud-element">
+                <span class="red-dot"></span>
+                <span>● REC</span>
+            </div>
+            <div class="timestamp hud-element">
+                CAM_01 // {{ formattedTimestamp() }}
+            </div>
+        </div>
+
+        <div class="hero-content">
+            <h1 class="hud-element">INTELLIGENT<br><span class="accent-text">SURVEILLANCE</span> ARCHITECTURE</h1>
+            <p class="hud-element">Autonomous threat analytics. High-precision tactical tracking hardware. Enterprise
+                network security matrices.</p>
+            <div class="cta-group hud-element">
+                <a href="#services" class="btn btn-primary">INITIALIZE DEPLOYMENT</a>
+                <a href="#live-feed" class="btn btn-secondary">VIEW ARCHIVE // ACTIVE</a>
+            </div>
+        </div>
+
+        <div class="hud-bottom">
+            <span class="hud-element">LAT_COORD: 40.7128° N // LON_COORD: 74.0060° W</span>
+            <span class="hud-element">VIGIL_OS v19.0.4 // SYSTEM STABLE</span>
+        </div>
+    </div>
+</section>

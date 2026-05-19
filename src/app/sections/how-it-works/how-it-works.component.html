@@ -1,0 +1,35 @@
+<section class="how-it-works-section" id="deployment">
+    <div class="section-header">
+        <div class="header-glitch" data-text="DEPLOYMENT PROTOCOL">DEPLOYMENT PROTOCOL</div>
+        <p>Standardized operational rollout for enterprise integration.</p>
+    </div>
+
+    <div class="timeline-container" [class.animate]="drawLine()">
+
+        <svg class="connection-svg" preserveAspectRatio="none">
+            <line x1="0" y1="50px" x2="100%" y2="50px" class="svg-line desktop-line" pathLength="100" />
+            <line x1="50px" y1="0" x2="50px" y2="100%" class="svg-line mobile-line" pathLength="100" />
+        </svg>
+
+        <div class="nodes-wrapper">
+            @for (step of steps; track step.num; let i = $index) {
+
+            <div class="node-item" [style.transition-delay]="(i * 400) + 'ms'">
+
+                <div class="aperture-icon">
+                    <div class="aperture-blade"></div>
+                    <div class="aperture-core"></div>
+                </div>
+
+                <div class="node-content">
+                    <span class="node-num">PHASE {{ step.num }}</span>
+                    <h4>{{ step.title }}</h4>
+                    <p>{{ step.desc }}</p>
+                </div>
+
+            </div>
+            }
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,24 @@
+<section class="stats-section">
+    <div class="stats-grid">
+
+        @for (stat of stats; track stat.label) {
+        <div class="stat-card">
+
+            <div class="progress-ring-wrapper">
+                <svg class="progress-ring" width="120" height="120">
+                    <circle class="ring-track" cx="60" cy="60" r="45"></circle>
+                    <circle class="ring-fill" cx="60" cy="60" r="45" [attr.stroke-dashoffset]="stat.currentOffset()">
+                    </circle>
+                </svg>
+
+                <div class="stat-value">
+                    {{ stat.prefix }}{{ stat.currentValue() }}{{ stat.suffix }}
+                </div>
+            </div>
+
+            <h5 class="stat-label">{{ stat.label }}</h5>
+        </div>
+        }
+
+    </div>
+</section>

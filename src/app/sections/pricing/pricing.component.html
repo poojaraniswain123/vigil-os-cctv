@@ -1,0 +1,55 @@
+<section class="pricing-section" id="pricing">
+    <div class="section-header">
+        <div class="header-glitch" data-text="DEPLOYMENT PLANS">DEPLOYMENT PLANS</div>
+        <p>Select your network security tier.</p>
+    </div>
+
+    <div class="billing-toggle">
+        <span [class.active]="!isAnnual()">MONTHLY</span>
+        <button class="switch" (click)="toggleBilling()" [class.on]="isAnnual()" aria-label="Toggle Billing">
+            <div class="switch-handle"></div>
+        </button>
+        <span [class.active]="isAnnual()">ANNUALLY <span class="discount">(SAVE 20%)</span></span>
+    </div>
+
+    <div class="pricing-grid">
+        @for (plan of plans; track plan.name) {
+        <div class="pricing-card" [class.recommended]="plan.recommended">
+
+            @if (plan.recommended) {
+            <div class="recommended-badge">RECOMMENDED // ACTIVE</div>
+            }
+
+            <div class="card-header">
+                <h3>{{ plan.name }}</h3>
+                <p>{{ plan.desc }}</p>
+            </div>
+
+            <div class="card-price">
+                @if (plan.priceMonthly === 'CUSTOM') {
+                <span class="price-val">CONTACT US</span>
+                } @else {
+                <span class="currency">$</span>
+                <span class="price-val">{{ isAnnual() ? plan.priceAnnual : plan.priceMonthly }}</span>
+                <span class="period">/ {{ isAnnual() ? 'YR' : 'MO' }}</span>
+                }
+            </div>
+
+            <div class="divider"></div>
+
+            <ul class="features-list">
+                @for (feat of plan.features; track feat) {
+                <li>
+                    <span class="check-icon">✓</span>
+                    {{ feat }}
+                </li>
+                }
+            </ul>
+
+            <button class="btn w-100" [class.btn-primary]="plan.recommended" [class.btn-secondary]="!plan.recommended">
+                INITIALIZE
+            </button>
+        </div>
+        }
+    </div>
+</section>

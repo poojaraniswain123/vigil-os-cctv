@@ -1,0 +1,27 @@
+<section class="faq-section" id="faq">
+    <div class="faq-container">
+        <div class="section-header">
+            <div class="header-glitch" data-text="SYSTEM INQUIRIES">SYSTEM INQUIRIES</div>
+            <p>Frequently accessed operational data.</p>
+        </div>
+
+        <div class="accordion-wrapper">
+            @for (faq of faqs; track faq.q; let i = $index) {
+
+            <div class="faq-item" [class.active]="activeIndex() === i">
+                <button class="faq-question" (click)="toggleFaq(i)">
+                    <span class="q-text"><span class="accent-text">Q{{ i + 1 }} //</span> {{ faq.q }}</span>
+                    <span class="chevron" [class.rotated]="activeIndex() === i">▾</span>
+                </button>
+
+                <div class="faq-answer-container" [@expandCollapse]="activeIndex() === i ? 'expanded' : 'collapsed'">
+                    <div class="faq-answer">
+                        {{ faq.a }}
+                    </div>
+                </div>
+            </div>
+
+            }
+        </div>
+    </div>
+</section>

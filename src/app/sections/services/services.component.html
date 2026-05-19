@@ -1,0 +1,27 @@
+<section class="services-section" id="services">
+    <div class="section-header">
+        <div class="header-glitch" data-text="CORE SUBSYSTEMS">CORE SUBSYSTEMS</div>
+        <p>Select a module to view operational parameters.</p>
+    </div>
+
+    <div class="services-grid">
+        @for (svc of services; track svc.id; let i = $index) {
+        <div class="service-card" appLensReveal [delay]="i * 150">
+
+            <div class="scanline-sweep"></div>
+
+            <div class="card-content">
+                <div class="icon-wrapper">{{ svc.icon }}</div>
+                <h3>{{ svc.title }}</h3>
+                <p>{{ svc.desc }}</p>
+            </div>
+
+            <div class="card-footer">
+                <span class="cam-id">{{ svc.id }} // ACTIVE</span>
+                <span class="status-dot"></span>
+            </div>
+
+        </div>
+        }
+    </div>
+</section>

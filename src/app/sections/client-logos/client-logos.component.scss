@@ -1,0 +1,125 @@
+.logos-section {
+    padding: 60px 0;
+    background-color: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+}
+
+/* Subtle header styling */
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 0 10%;
+    margin-bottom: 40px;
+    color: var(--text-secondary);
+
+    .crosshair-icon {
+        color: var(--accent-color);
+        font-size: 1.2rem;
+    }
+
+    h4 {
+        font-size: 0.9rem;
+        letter-spacing: 3px;
+        margin: 0;
+    }
+
+    .header-line {
+        flex-grow: 1;
+        height: 1px;
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+/* Marquee track styling */
+.marquee-wrapper {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    margin-bottom: 20px;
+
+    /* Fade out edges using a CSS mask */
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.marquee-track {
+    display: flex;
+    gap: 60px;
+    width: max-content;
+    padding-left: 60px;
+    /* matches gap */
+    will-change: transform;
+
+    &:hover {
+        animation-play-state: paused;
+        /* Pause on hover */
+    }
+}
+
+/* Scroll Directions & Speeds */
+.track-left {
+    animation: scrollLeft 40s linear infinite;
+}
+
+.track-right {
+    animation: scrollRight 45s linear infinite;
+}
+
+@keyframes scrollLeft {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(-50%);
+    }
+
+    /* Scrolls exactly half its width */
+}
+
+@keyframes scrollRight {
+    0% {
+        transform: translateX(-50%);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+/* Individual fake logo styling */
+.logo-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-secondary);
+    opacity: 0.4;
+    transition: all 0.3s ease;
+    cursor: pointer;
+
+    .logo-icon {
+        font-size: 1.2rem;
+        color: var(--accent-color);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+
+    &:hover {
+        color: var(--text-primary);
+        opacity: 1;
+        transform: scale(1.05);
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+
+        .logo-icon {
+            opacity: 1;
+        }
+    }
+}

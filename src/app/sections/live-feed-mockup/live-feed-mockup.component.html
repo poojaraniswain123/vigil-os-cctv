@@ -1,0 +1,39 @@
+<section class="cctv-dashboard">
+    <div class="section-header">
+        <div class="header-glitch" data-text="LIVE SURVEILLANCE MESH">LIVE SURVEILLANCE MESH</div>
+        <p>Monitoring active zones. Unauthorized access detected in Zone 2.</p>
+    </div>
+
+    <div class="feed-grid">
+        @for (feed of feeds; track feed.id) {
+        <div class="feed-container" [class.alert-active]="feed.hasMotion">
+
+            <div class="feed-video-mockup" [style.filter]="feed.colorFilter"></div>
+
+            <div class="feed-static"></div>
+
+            <div class="hud-top-left">
+                <span class="rec-dot"></span> REC
+            </div>
+
+            <div class="hud-top-right">
+                {{ liveTimestamp() }}
+            </div>
+
+            <div class="hud-crosshair">⌖</div>
+
+            <div class="hud-bottom">
+                <span class="cam-id">{{ feed.id }}</span>
+                <span class="cam-loc">{{ feed.location }}</span>
+            </div>
+
+            @if (feed.hasMotion) {
+            <div class="motion-warning">
+                ⚠ MOTION DETECTED
+            </div>
+            }
+
+        </div>
+        }
+    </div>
+</section>
