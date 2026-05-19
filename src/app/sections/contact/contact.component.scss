@@ -205,3 +205,41 @@ textarea {
         padding: 30px 20px;
     }
 }
+
+/* ==========================================================================
+   DAY MODE OVERRIDES (Using Angular host-context)
+   ========================================================================== */
+:host-context(.light-mode) {
+
+    .contact-section {
+        background-color: var(--bg-color);
+        /* Overrides the hardcoded #040508 */
+    }
+
+    /* Make the glass terminal white/transparent instead of dark blue */
+    .contact-container {
+        background-color: rgba(255, 255, 255, 0.6);
+        border-color: rgba(2, 132, 199, 0.3);
+        /* Day mode blue accent */
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05), inset 0 0 20px rgba(2, 132, 199, 0.1);
+    }
+
+    /* Make the inputs white with dark text */
+    input,
+    textarea {
+        background-color: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        color: var(--text-primary);
+
+        &:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 15px rgba(2, 132, 199, 0.2);
+        }
+    }
+
+    /* Lighten up the radar grid */
+    .radar-grid {
+        background-image: linear-gradient(rgba(2, 132, 199, 0.1) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(2, 132, 199, 0.1) 1px, transparent 1px);
+    }
+}

@@ -82,3 +82,24 @@ circle {
     letter-spacing: 2px;
     margin: 0;
 }
+
+
+/* ==========================================================================
+   DAY MODE OVERRIDES
+   ========================================================================== */
+:host-context(.light-mode) {
+
+    .stats-section {
+        background-color: var(--surface-color);
+        background-image: none;
+        /* Removes any hardcoded dark gradients */
+        box-shadow: none;
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Ensure the background ring of the SVG is light gray instead of dark gray */
+    .circle-bg {
+        stroke: rgba(0, 0, 0, 0.1);
+    }
+}

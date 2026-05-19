@@ -1,24 +1,34 @@
 <section class="vision-wrapper">
+    <div class="sticky-container perspective-container">
 
-    <div class="sticky-container">
+        <div class="lens-flare" [style.opacity]="(1 - scrollProgress()) * 1.5"></div>
 
-        <div class="core-reveal">
-            <div class="target-lock" [style.transform]="'scale(' + (0.5 + scrollProgress() * 0.5) + ')'">⌖</div>
-            <h2 [style.opacity]="scrollProgress()">UNCOMPROMISED<br><span class="accent-text">PRECISION</span></h2>
-            <p [style.opacity]="scrollProgress() * scrollProgress()">
+        <div class="core-reveal" [style.filter]="'blur(' + (15 - scrollProgress() * 15) + 'px)'"
+            [style.opacity]="scrollProgress() * 1.5"
+            [style.transform]="'rotateX(' + (60 - scrollProgress() * 60 + mouseY() * -15) + 'deg) rotateY(' + (mouseX() * 15) + 'deg) translateY(' + (100 - scrollProgress() * 100) + 'px) scale(' + (0.8 + scrollProgress() * 0.2) + ')'">
+
+            <div class="target-lock interactive-target"
+                [style.transform]="'scale(' + (0.5 + scrollProgress() * 1.5) + ') rotate(' + (scrollProgress() * 180) + 'deg)'">
+                ⌖
+            </div>
+
+            <h2>UNCOMPROMISED<br><span class="accent-text">PRECISION</span></h2>
+            <p>
                 Our hardware doesn't just record. It analyzes, tracks, and neutralizes blind spots in real-time across
                 your entire network.
             </p>
         </div>
 
-        <div class="lens-chassis" [style.--progress]="scrollProgress()">
+        <div class="lens-chassis" [style.--progress]="scrollProgress()"
+            [style.transform]="'rotateX(' + (mouseY() * -5) + 'deg) rotateY(' + (mouseX() * 5) + 'deg)'">
+
+            <div class="lens-ring"></div>
 
             @for (blade of blades; track blade) {
             <div class="giant-blade" [style.--i]="blade">
                 <div class="blade-edge"></div>
             </div>
             }
-
         </div>
 
     </div>

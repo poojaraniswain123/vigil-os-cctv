@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Inject, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
+// Imports from your build
 import { CursorComponent } from './shared/components/cursor/cursor.component';
 import { ParallaxDirective } from './core/directives/parallax.directive';
-import { HeroComponent } from './sections/hero/hero.component'; // Import here
-import { ThemeService } from './app/core/services/theme.service';
+import { HeroComponent } from './sections/hero/hero.component';
 import { ClientLogosComponent } from './sections/client-logos/client-logos.component';
 import { StatsComponent } from './sections/stats/stats.component';
 import { ServicesComponent } from './sections/services/services.component';
@@ -14,42 +14,29 @@ import { VisionShowcaseComponent } from './sections/vision-showcase/vision-showc
 import { PricingComponent } from './sections/pricing/pricing.component';
 import { FaqComponent } from './sections/faq/faq.component';
 import { ContactComponent } from './sections/contact/contact.component';
+import { DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent
-    , StatsComponent
-    , ServicesComponent
-    , LiveFeedMockupComponent
-    , HowItWorksComponent
-    , VisionShowcaseComponent
-    , PricingComponent
-    , FaqComponent
-    , ContactComponent
-  ], // Include here
-  template: `
-    <app-cursor />
-    <div class="surveillance-bg" appParallax [parallaxRatio]="0.15"></div>
-    <div class="noise-overlay"></div>
-
-    <app-hero />
-    <app-client-logos />
-    <app-stats />
-
-    <app-services />
-    <app-live-feed-mockup />
-    <app-how-it-works />
-    <app-vision-showcase />
-    <app-pricing />
-    <app-faq />
-    <app-contact />
-    <router-outlet />
-  `,
+  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent, StatsComponent, ServicesComponent, LiveFeedMockupComponent, HowItWorksComponent, VisionShowcaseComponent, PricingComponent, FaqComponent, ContactComponent],
+  templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'cctv-security-solutions';
+  isLightMode = signal<boolean>(false);
 
-  constructor(private themeService: ThemeService) { }
+  constructor(@Inject(DOCUMENT) private document: Document) { }
+
+  toggleTheme(): void {
+    const currentState = !this.isLightMode();
+    this.isLightMode.set(currentState);
+
+    if (currentState) {
+      this.document.body.classList.add('light-mode');
+    } else {
+      this.document.body.classList.remove('light-mode');
+    }
+  }
 }

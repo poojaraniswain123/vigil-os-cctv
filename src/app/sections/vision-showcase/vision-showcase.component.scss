@@ -5,7 +5,7 @@
 /* Forces the user to scroll for a long time */
 .vision-wrapper {
     position: relative;
-    height: 300vh;
+    height: 450vh;
     width: 100vw;
     background-color: var(--bg-color);
     z-index: 20;
@@ -25,7 +25,6 @@
     background-image: radial-gradient(circle at center, #0d121c 0%, #000000 100%);
 }
 
-/* --- THE REVEALED CONTENT --- */
 .core-reveal {
     position: absolute;
     z-index: 1;
@@ -36,28 +35,9 @@
     max-width: 800px;
     padding: 0 20px;
 
-    .target-lock {
-        font-size: 5rem;
-        color: var(--accent-color);
-        opacity: 0.8;
-        margin-bottom: 20px;
-        font-weight: 100;
-    }
-
-    h2 {
-        font-size: clamp(3rem, 6vw, 5rem);
-        line-height: 1.1;
-        margin-bottom: 20px;
-        color: var(--text-primary);
-        text-shadow: 0 0 20px rgba(0, 255, 200, 0.2);
-    }
-
-    p {
-        font-size: 1.2rem;
-        color: var(--text-secondary);
-        font-family: 'Courier New', monospace;
-        line-height: 1.6;
-    }
+    /* Forces the browser to use the GPU for the blur and 3D tilt, making it butter-smooth */
+    will-change: transform, filter, opacity;
+    transform-style: preserve-3d;
 }
 
 /* --- THE MECHANICAL BLADES --- */
@@ -71,33 +51,44 @@
     pointer-events: none;
 }
 
+/* NEW: The Glowing Focusing Ring */
+.lens-ring {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 2px dashed var(--accent-color);
+    box-shadow: 0 0 30px var(--accent-color), inset 0 0 20px var(--accent-color);
+
+    /* Spins backward and expands as the blades open! */
+    transform: translate(-50%, -50%) rotate(calc(var(--progress) * -180deg)) scale(calc(1 + var(--progress) * 8));
+
+    /* Fades out as it gets bigger */
+    opacity: calc(1 - var(--progress) * 1.5);
+}
+
+
 .giant-blade {
     position: absolute;
     top: 50%;
     left: 50%;
-    /* Make them massive so they cover the screen */
     width: 120vmax;
     height: 120vmax;
-    background-color: #08090d;
-    /* Pitch black */
+    background: linear-gradient(110deg, #030407 0%, #0a0d14 50%, #030407 100%);
 
-    /* Hinge them exactly at the center of the screen */
+    /* Deeper shadow for more weight */
+    box-shadow: -20px 0 100px rgba(0, 0, 0, 1), -5px 0 20px rgba(0, 0, 0, 0.8);
+
     transform-origin: 0 0;
-
-    /* MATHEMATICAL MAGIC: 
-     This creates a perfect 60-degree triangle wedge! 
-     (Tan(60deg) = 1.732) */
     clip-path: polygon(0 0, 175% 100%, 0 100%);
 
-    /* 1. Base rotation aligns the 6 wedges into a perfect circle
-     2. Translate pushes them outward as you scroll
-     3. Rotate adds a mechanical twisting aperture effect */
     transform:
-        rotate(calc(var(--i) * 60deg)) translate(calc(var(--progress) * 15vmax), calc(var(--progress) * 25vmax)) rotate(calc(var(--progress) * -15deg));
+        rotate(calc(var(--i) * 60deg + (var(--progress) * 60deg))) translateX(calc(var(--progress) * 35vmax));
 
     will-change: transform;
 
-    /* The glowing edge of the blade */
     .blade-edge {
         position: absolute;
         top: 0;
@@ -105,10 +96,80 @@
         width: 3px;
         height: 100%;
         background: var(--accent-color);
-        box-shadow: 0 0 15px var(--accent-color);
 
-        /* Fades the laser line out towards the edges of the screen */
-        mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 70%);
-        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 30%, transparent 70%);
+        /* DYNAMIC GLOW: Starts dim (10px) and burns intensely (40px) as it opens */
+        box-shadow: 0 0 calc(10px + var(--progress) * 30px) var(--accent-color), 0 0 5px #fff;
+
+        mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 80%);
+        -webkit-mask-image: linear-gradient(to bottom, black 0%, black 20%, transparent 80%);
     }
+}
+
+/* --- DAY MODE OVERRIDES --- */
+:host-context(.light-mode) {
+    .sticky-container {
+        background-image: radial-gradient(circle at center, #ffffff 0%, #e2e8f0 100%);
+    }
+
+    .giant-blade {
+        /* Lighter metallic blades for day mode */
+        background: linear-gradient(110deg, #e2e8f0 0%, #f8fafc 50%, #e2e8f0 100%);
+    }
+}
+
+.perspective-container {
+    perspective: 1200px;
+    /* Creates the 3D depth */
+}
+
+lens-flare {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    /* The size of the glow expands dynamically with --progress */
+    background: radial-gradient(circle at center, rgba(0, 255, 200, calc(var(--progress) * 0.5)) 0%, transparent calc(30% + var(--progress) * 40%));
+    mix-blend-mode: screen;
+    z-index: 5;
+    pointer-events: none;
+    will-change: opacity, background;
+}
+
+
+/* ==========================================================================
+   INTERACTIVE ELEMENTS
+   ========================================================================== */
+
+/* The parent needs pointer-events to allow hovering */
+.core-reveal {
+    pointer-events: auto;
+}
+
+/* The flare needs to ignore the mouse so we can click through it */
+.lens-flare {
+    pointer-events: none;
+}
+
+/* The interactive target crosshair */
+.interactive-target {
+    cursor: crosshair;
+    position: relative;
+    z-index: 50;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        color: #fff;
+        /* Massive double-glow effect on hover */
+        text-shadow: 0 0 10px #fff, 0 0 30px var(--accent-color), 0 0 50px var(--accent-color);
+        /* Pops out slightly in 3D space */
+        transform: scale(2.2) !important;
+    }
+}
+
+/* Ensure the chassis can rotate smoothly in 3D */
+.lens-chassis {
+    transform-style: preserve-3d;
+    will-change: transform;
 }

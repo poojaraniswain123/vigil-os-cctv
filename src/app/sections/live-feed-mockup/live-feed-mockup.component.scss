@@ -185,3 +185,28 @@
         grid-template-columns: 1fr;
     }
 }
+
+/* ==========================================================================
+   DAY MODE OVERRIDES
+   ========================================================================== */
+:host-context(.light-mode) {
+
+    /* The monitors should stay dark, so we force the text inside them back to light! */
+    .feed-container {
+
+        .hud-top-left,
+        .hud-top-right {
+            color: #ffffff;
+            /* Force white text */
+        }
+
+        .hud-bottom .cam-loc {
+            color: #cbd5e1;
+            /* Force light gray text */
+        }
+
+        .hud-crosshair {
+            color: rgba(255, 255, 255, 0.4);
+        }
+    }
+}

@@ -56,3 +56,27 @@
         color: var(--text-secondary);
     }
 }
+
+.theme-toggle-btn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+    background-color: var(--surface-color);
+    color: var(--text-primary);
+    border: 1px solid var(--accent-color);
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+
+    &:hover {
+        background-color: var(--accent-color);
+        color: #fff;
+        transform: translateY(-2px);
+    }
+}
