@@ -1,0 +1,25 @@
+<nav class="navbar" [class.scrolled]="isScrolled()">
+
+    <a href="#home" class="nav-brand">
+        <div class="logo">
+            <span class="icon">◓</span> CCTV<span class="highlight">_Cam</span>
+        </div>
+        <div class="tagline">AI Powered CCTV Monitoring Solutions</div>
+    </a>
+
+    <button class="menu-toggle" (click)="toggleMenu()" [class.active]="isMenuOpen()">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+    </button>
+
+    <ul class="nav-links" [class.active]="isMenuOpen()">
+        <li><a href="#home" (click)="toggleMenu()">Home</a></li>
+        <li><a href="#services" (click)="toggleMenu()">Services</a></li>
+        <li><a href="#products" (click)="toggleMenu()">Hardware</a></li>
+        <li><a href="#about" (click)="toggleMenu()">About Us</a></li>
+        <li><a href="#pricing" (click)="toggleMenu()">Pricing</a></li>
+        <li><a href="#contact" class="btn-primary" (click)="toggleMenu()">Contact Sales</a></li>
+    </ul>
+
+</nav>

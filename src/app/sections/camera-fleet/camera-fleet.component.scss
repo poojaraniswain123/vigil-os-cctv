@@ -1,0 +1,237 @@
+/* ==========================================================================
+   PRODUCT CATALOG SHOWCASE
+   ========================================================================== */
+
+.showcase-container {
+    padding: 100px 10%;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.accent-text {
+    color: var(--accent-color);
+}
+
+.subtitle {
+    font-family: 'Courier New', monospace;
+    color: var(--text-secondary);
+    letter-spacing: 2px;
+}
+
+/* --- THE GRID --- */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+/* --- THE CARD --- */
+.product-card {
+    background: rgba(4, 5, 8, 0.8);
+    border: 1px solid rgba(0, 255, 200, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    height: 480px;
+    /* Fixed height keeps the grid perfectly aligned */
+    display: flex;
+    flex-direction: column;
+
+    /* THE HOVER MAGIC */
+    &:hover {
+        border-color: var(--accent-color);
+        box-shadow: 0 10px 40px rgba(0, 255, 200, 0.15);
+        transform: translateY(-10px);
+
+        /* 1. Reveal the hidden text */
+        .hover-reveal {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* 2. Shrink the image area to make room */
+        .product-image-container {
+            height: 140px;
+            .product-image {
+                    transform: scale(0.65);
+                }
+            .lens-graphic {
+                transform: scale(0.7);
+            }
+        }
+    }
+}
+
+/* --- IMAGE AREA --- */
+.product-image-container {
+    height: 280px;
+    /* Default large height */
+    background: radial-gradient(circle at center, rgba(0, 255, 200, 0.05) 0%, transparent 70%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: height 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(4, 5, 8, 1);
+    /* 100% solid background to block anything behind it */
+    color: var(--accent-color);
+    padding: 6px 12px;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    z-index: 100;
+    /* Forces it to the very top */
+
+    /* Resets to kill the 'ghost' effect */
+    margin: 0;
+    text-shadow: none;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Pure CSS Placeholder Graphic for your Cameras */
+.lens-graphic {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid #2a2d34;
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset 0 0 20px #000, 0 0 15px rgba(0, 255, 200, 0.2);
+    transition: transform 0.5s ease;
+
+    .lens-inner {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: #080808;
+        border: 2px solid #333;
+        box-shadow: inset 0 0 10px rgba(0, 255, 200, 0.3);
+
+        &::after {
+            content: '';
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: rgba(0, 255, 200, 0.5);
+            border-radius: 50%;
+            transform: translate(10px, 10px);
+            filter: blur(2px);
+        }
+    }
+}
+
+/* --- PRODUCT INFO (BOTTOM HALF) --- */
+.product-info {
+    padding: 25px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+h3 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.4rem;
+    margin: 0 0 5px 0;
+    color: #fff;
+}
+
+.product-id {
+    font-family: 'Courier New', monospace;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin: 0;
+}
+
+/* The hidden content container */
+.hover-reveal {
+    margin-top: 15px;
+    transform: translateY(20px);
+    /* Pushed down initially */
+    opacity: 0;
+    /* Invisible initially */
+    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+}
+
+.description {
+    font-size: 0.9rem;
+    color: #ccc;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
+
+.feature-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+
+    li {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        color: var(--accent-color);
+        margin-bottom: 5px;
+    }
+
+    .bullet {
+        font-size: 0.9rem;
+        margin-right: 5px;
+    }
+}
+
+.btn-specs {
+    margin-top: auto;
+    background: transparent;
+    border: 1px solid var(--accent-color);
+    color: var(--accent-color);
+    padding: 10px;
+    border-radius: 4px;
+    font-family: 'Orbitron', sans-serif;
+    cursor: pointer;
+    transition: 0.3s;
+
+    &:hover {
+        background: var(--accent-color);
+        color: #000;
+    }
+}
+
+/* --- IMAGE STYLING --- */
+.product-image {
+    width: 200px;
+    /* Adjust this depending on your image sizes */
+    height: auto;
+    max-height: 200px;
+    object-fit: contain;
+    /* Ensures the image never gets stretched or distorted */
+    transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+    /* Creates a realistic 3D shadow behind your transparent PNGs */
+    filter: drop-shadow(0 15px 25px rgba(0, 0, 0, 0.8));
+}

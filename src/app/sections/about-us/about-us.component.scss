@@ -1,0 +1,71 @@
+/* ==========================================================================
+   ABOUT US - DIAGNOSTIC DASHBOARD
+   ========================================================================== */
+
+.about-container {
+    padding: 100px 10%;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+}
+
+.section-title {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    font-family: 'Courier New', monospace;
+    color: var(--accent-color);
+    margin-bottom: 50px;
+    text-transform: uppercase;
+}
+
+.about-grid {
+    display: grid;
+    /* Create 3 equal columns */
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.about-card {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(0, 255, 200, 0.1);
+    padding: 30px;
+    border-radius: 4px;
+    transition: all 0.4s ease;
+
+    &:hover {
+        background: rgba(0, 255, 200, 0.05);
+        border: 1px solid var(--accent-color);
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    }
+}
+
+.card-icon {
+    font-size: 2rem;
+    color: var(--accent-color);
+    margin-bottom: 20px;
+}
+
+h3 {
+    font-family: 'Orbitron', sans-serif;
+    margin-bottom: 15px;
+}
+
+p {
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+}
+
+/* Mobile Responsive: Stack the cards vertically */
+@media (max-width: 900px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}

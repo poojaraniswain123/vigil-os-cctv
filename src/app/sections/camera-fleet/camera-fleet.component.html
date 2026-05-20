@@ -1,0 +1,36 @@
+<section id="products" class="showcase-container">
+
+    <div class="section-header">
+        <h2 class="section-title">OUR <span class="accent-text">HARDWARE</span></h2>
+        <p class="subtitle">ENTERPRISE-GRADE OPTICAL SOLUTIONS // CATALOG</p>
+    </div>
+
+    <div class="product-grid">
+        @for (product of products; track product.id) {
+        <div class="product-card">
+        
+            <div class="product-image-container">
+                <img [src]="product.image" [alt]="product.name" class="product-image">
+                <div class="product-badge">{{ product.category }}</div>
+            </div>
+        
+            <div class="product-info">
+                <h3>{{ product.name }}</h3>
+                <p class="product-id">SKU: {{ product.id }}</p>
+        
+                <div class="hover-reveal">
+                    <p class="description">{{ product.desc }}</p>
+                    <ul class="feature-list">
+                        @for (feat of product.features; track feat) {
+                        <li><span class="bullet">⌖</span> {{ feat }}</li>
+                        }
+                    </ul>
+                    <button class="btn-specs">VIEW FULL SPECS</button>
+                </div>
+            </div>
+        
+        </div>
+        }
+    </div>
+
+</section>

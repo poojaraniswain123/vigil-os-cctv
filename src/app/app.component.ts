@@ -15,11 +15,17 @@ import { PricingComponent } from './sections/pricing/pricing.component';
 import { FaqComponent } from './sections/faq/faq.component';
 import { ContactComponent } from './sections/contact/contact.component';
 import { DOCUMENT } from '@angular/common';
+import { LensRevealComponent } from './sections/lens-reveal/lens-reveal.component';
+import { NavbarComponent } from './shared/components/navbar/navbar.component';
+import { AboutUsComponent } from './sections/about-us/about-us.component';
+import { CameraFleetComponent } from './sections/camera-fleet/camera-fleet.component';
+
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent, StatsComponent, ServicesComponent, LiveFeedMockupComponent, HowItWorksComponent, VisionShowcaseComponent, PricingComponent, FaqComponent, ContactComponent],
+  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent, StatsComponent, ServicesComponent, LiveFeedMockupComponent, HowItWorksComponent, VisionShowcaseComponent, PricingComponent, FaqComponent, ContactComponent, LensRevealComponent, NavbarComponent, AboutUsComponent, CameraFleetComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })

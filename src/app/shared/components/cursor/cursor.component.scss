@@ -10,7 +10,7 @@
     border-radius: 50%;
     pointer-events: none;
     /* Allows clicks to pass through */
-    z-index: 9999;
+    z-index: 9999999;
     /* Always on top */
     will-change: transform;
     /* Hint for GPU acceleration */

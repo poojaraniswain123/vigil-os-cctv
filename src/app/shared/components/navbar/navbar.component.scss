@@ -1,0 +1,158 @@
+/* ==========================================================================
+   GLOBAL NAVIGATION BAR
+   ========================================================================== */
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    /* THE WIDTH FIX: Forces padding to stay inside the 100% width */
+    box-sizing: border-box;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-color);
+    padding: 25px 5%;
+    z-index: 999999;
+    pointer-events: auto;
+    transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+    border-bottom: 1px solid transparent;
+    cursor: default;
+    &.scrolled {
+        padding: 15px 5%;
+        background-color: rgba(4, 5, 8, 0.85);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(0, 255, 200, 0.15);
+    }
+}
+
+/* --- BRANDING --- */
+.nav-brand {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    pointer-events: auto;
+    z-index: 10002;
+    /* THE CURSOR FIX: Bring back the hand pointer */
+    cursor: pointer;
+}
+
+.logo {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 2px;
+
+    .icon {
+        color: var(--accent-color);
+        margin-right: 8px;
+    }
+
+    .highlight {
+        color: var(--accent-color);
+    }
+}
+
+.tagline {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    margin-top: 2px;
+}
+
+/* --- LINKS --- */
+.nav-links {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 0;
+    padding: 0;
+    pointer-events: auto;
+
+    li a {
+        text-decoration: none;
+        color: var(--text-primary);
+        font-family: 'Orbitron', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+        /* THE CURSOR FIX */
+        cursor: pointer;
+
+        &:hover {
+            color: var(--accent-color);
+            text-shadow: 0 0 10px rgba(0, 255, 200, 0.5);
+        }
+    }
+
+    .btn-primary {
+        border: 1px solid var(--accent-color);
+        padding: 10px 20px;
+        border-radius: 4px;
+        color: var(--accent-color);
+        /* THE CURSOR FIX */
+        cursor: pointer;
+
+        &:hover {
+            background-color: var(--accent-color);
+            color: #000;
+            box-shadow: 0 0 15px var(--accent-color);
+        }
+    }
+}
+
+/* --- MOBILE --- */
+.menu-toggle {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        z-index: 10002;
+        /* THE CURSOR FIX */
+        cursor: pointer;
+
+        .bar {
+            width: 25px;
+            height: 3px;
+            background: var(--text-primary);
+            transition: 0.3s;
+        }
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 85px;
+        right: -100%;
+        flex-direction: column;
+        background: rgba(4, 5, 8, 0.95);
+        width: 100%;
+        height: calc(100vh - 85px);
+        transition: 0.4s;
+        padding: 50px 0;
+        pointer-events: none;
+
+        &.active {
+            right: 0;
+            pointer-events: auto;
+        }
+    }
+}
+
+/* --- DAY MODE OVERRIDES --- */
+:host-context(.light-mode) {
+    .navbar.scrolled {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+}

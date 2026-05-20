@@ -1,0 +1,170 @@
+/* --- CONTAINER SCROLL TRACK --- */
+.vision-wrapper {
+    position: relative;
+    height: 450vh;
+    background-color: var(--bg-color);
+}
+
+.sticky-container {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.perspective-container {
+    perspective: 1200px;
+}
+
+/* --- LIGHTING & TEXT --- */
+.lens-flare {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100vw;
+    height: 100vh;
+    background: radial-gradient(circle at center, rgba(0, 255, 200, 0.25) 0%, transparent 60%);
+    mix-blend-mode: screen;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.core-reveal {
+    position: absolute;
+    z-index: 10;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 800px;
+    padding: 0 20px;
+    will-change: transform, filter, opacity;
+    transform-style: preserve-3d;
+    pointer-events: auto;
+}
+
+h2 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 4rem;
+    margin: 0;
+    line-height: 1.1;
+}
+
+.accent-text {
+    color: var(--accent-color);
+    text-shadow: 0 0 20px rgba(0, 255, 200, 0.4);
+    transition: color 0.3s;
+}
+
+p {
+    font-family: 'Courier New', monospace;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-top: 20px;
+}
+
+/* --- INTERACTIVE TARGET --- */
+.target-lock {
+    font-size: 4rem;
+    color: var(--accent-color);
+    margin-bottom: -10px;
+    font-weight: 100;
+}
+
+.interactive-target {
+    cursor: crosshair;
+    position: relative;
+    z-index: 50;
+    transition: all 0.3s ease-out;
+
+    &:hover {
+        color: #fff;
+        text-shadow: 0 0 10px #fff, 0 0 30px var(--accent-color), 0 0 50px var(--accent-color);
+        transform: scale(2.2) !important;
+    }
+}
+
+.interactive-target.locked-on {
+    color: var(--alert-color) !important;
+    text-shadow: 0 0 20px var(--alert-color), 0 0 40px var(--alert-color);
+    animation: radarSpin 2s linear infinite;
+}
+
+@keyframes radarSpin {
+    100% {
+        transform: scale(2) rotate(360deg);
+    }
+}
+
+.scan-line {
+    position: absolute;
+    top: 0;
+    left: -10%;
+    width: 120%;
+    height: 4px;
+    background: var(--alert-color);
+    box-shadow: 0 0 20px var(--alert-color), 0 0 40px var(--alert-color);
+    border-radius: 50%;
+    animation: scanSweep 3s ease-in-out infinite;
+    pointer-events: none;
+    z-index: 100;
+    mix-blend-mode: screen;
+}
+
+@keyframes scanSweep {
+    0% {
+        top: -20px;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 120%;
+        opacity: 0;
+    }
+}
+
+/* --- THE VIDEO BACKGROUND --- */
+.video-chassis {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.cinematic-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* CRITICAL: This drops the black background and makes it transparent! */
+    mix-blend-mode: screen;
+    filter: contrast(1.1) brightness(0.9);
+}
+
+/* DAY MODE MAGIC: Flips the video to work on a white background */
+:host-context(.light-mode) {
+    .cinematic-video {
+        filter: invert(1) contrast(1.2);
+        mix-blend-mode: multiply;
+        /* Drops white pixels instead of black */
+    }
+
+    .lens-flare {
+        display: none;
+    }
+}

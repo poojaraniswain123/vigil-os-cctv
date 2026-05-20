@@ -1,0 +1,36 @@
+<section class="vision-wrapper">
+    <div class="sticky-container perspective-container">
+
+        <div class="lens-flare" [style.opacity]="(1 - scrollProgress()) * 1.5"
+            [style.transform]="'translate(calc(-50% + ' + (mouseX() * 100) + 'px), calc(-50% + ' + (mouseY() * 100) + 'px))'">
+        </div>
+
+        <div class="core-reveal" [style.filter]="'blur(' + (15 - scrollProgress() * 15) + 'px)'"
+            [style.opacity]="scrollProgress() * 1.5"
+            [style.transform]="'rotateX(' + (60 - scrollProgress() * 60 + mouseY() * -15) + 'deg) rotateY(' + (mouseX() * 15) + 'deg) translateY(' + (100 - scrollProgress() * 100) + 'px) scale(' + (0.8 + scrollProgress() * 0.2) + ')'">
+
+            @if (isLocked()) {
+            <div class="scan-line"></div>
+            }
+
+            <div class="target-lock interactive-target" [class.locked-on]="isLocked()" (click)="toggleLock()"
+                [style.transform]="'scale(' + (0.5 + scrollProgress() * 1.5) + ') rotate(' + (scrollProgress() * 180) + 'deg)'">
+                ⌖
+            </div>
+
+            <h2>UNCOMPROMISED<br><span class="accent-text"
+                    [style.color]="isLocked() ? 'var(--alert-color)' : ''">PRECISION</span></h2>
+            <p>
+                Our hardware doesn't just record. It analyzes, tracks, and neutralizes blind spots in real-time across
+                your entire network.
+            </p>
+        </div>
+
+        <div class="video-chassis">
+            <video #lensVideo autoplay loop muted playsinline preload="auto" class="cinematic-video">
+                <source src="/assets/lens-opening.mp4" type="video/mp4">
+            </video>
+        </div>
+
+    </div>
+</section>
