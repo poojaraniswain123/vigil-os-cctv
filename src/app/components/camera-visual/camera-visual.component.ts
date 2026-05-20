@@ -37,12 +37,12 @@ export class CameraVisualComponent implements OnInit {
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    if (window.scrollY > 50 || window.innerWidth <= 1024) return;
-
-    // Smooth 3D mouse tracking
-    const x = (window.innerWidth / 2 - e.clientX) / 35;
-    const y = (window.innerHeight / 2 - e.clientY) / 35;
-    this.cameraTransform.set(`scale(0.85) rotateY(${x}deg) rotateX(${y}deg)`);
+    if (window.scrollY > 100 || window.innerWidth <= 1024) return;
+    const x = (window.innerWidth / 2 - e.clientX) / 25;
+    const y = (window.innerHeight / 2 - e.clientY) / 25;
+    this.cameraTransform.set(
+      `scale(0.88) rotateY(${x}deg) rotateX(${y}deg)`
+    );
   }
 
   @HostListener('window:scroll', ['$event'])
