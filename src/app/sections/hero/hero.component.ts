@@ -1,13 +1,10 @@
 import {
   Component,
-  OnInit,
-  OnDestroy,
-  HostListener,
-  AfterViewInit,
-  ViewChild,
   ElementRef,
-  signal,
-  computed
+  ViewChild,
+  AfterViewInit,
+  OnDestroy,
+  signal
 } from '@angular/core';
 
 class Particle {
@@ -64,42 +61,17 @@ class Particle {
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss'
 })
 export class HeroComponent
-  implements OnInit, OnDestroy, AfterViewInit {
+implements AfterViewInit, OnDestroy {
 
   @ViewChild('particlesCanvas')
   particlesCanvas!: ElementRef<HTMLCanvasElement>;
 
-  protected bootText = signal<string>('');
-  protected isBooted = signal<boolean>(false);
-
   protected cameraPosition =
-    signal<'center' | 'left' | 'right'>('center');
-
-  cameraTransform = signal<string>(
-    'translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)'
-  );
-
-  private currentTime =
-    signal<Date>(new Date());
-
-  protected formattedTimestamp =
-    computed(() => {
-
-      const d = this.currentTime();
-
-      return `
-        ${d.toLocaleDateString()}
-        //
-        ${d.toLocaleTimeString()}
-      `;
-    });
-
-  private timerId: any;
+    signal<'left' | 'center' | 'right'>('center');
 
   private angle = 0;
 
@@ -107,22 +79,7 @@ export class HeroComponent
 
   private particles: Particle[] = [];
 
-  private animationFrameId: number = 0;
-
-  private bootPhrases = [
-    'INITIALIZING CORE_VIGIL_OS... DONE',
-    'CONNECTING TO SURVEILLANCE MESH... SECURE',
-    'SYNCING APERTURE MOTORS... CALIBRATED',
-    'DECRYPTING VIDEO STREAM SUBSYSTEMS... SUCCESS',
-    'OPENING LENS BLADES...'
-  ];
-
-  ngOnInit(): void {
-
-    this.runBootSequence();
-
-    this.startLiveFeedClock();
-  }
+  private animationFrameId = 0;
 
   ngAfterViewInit(): void {
 
@@ -130,10 +87,6 @@ export class HeroComponent
   }
 
   ngOnDestroy(): void {
-
-    if (this.timerId) {
-      clearInterval(this.timerId);
-    }
 
     cancelAnimationFrame(this.animationFrameId);
   }
@@ -158,79 +111,6 @@ export class HeroComponent
     }
   }
 
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-
-    if (window.scrollY > 50) return;
-
-    const x =
-      (window.innerWidth / 2 - e.clientX) / 80;
-
-    const y =
-      (window.innerHeight / 2 - e.clientY) / 80;
-
-    this.cameraTransform.set(`
-      translateX(40px)
-      scale(0.75)
-      rotateY(${x}deg)
-      rotateX(${y}deg)
-    `);
-  }
-
-  @HostListener('window:scroll')
-  onScroll(): void {
-
-    const scrollValue =
-      window.scrollY ||
-      document.documentElement.scrollTop;
-
-    if (scrollValue > 5) {
-
-      const rotateY =
-        scrollValue * 0.15;
-
-      const rotateX =
-        Math.sin(scrollValue * 0.02) * 15;
-
-      const moveX =
-        40 + Math.sin(scrollValue * 0.02) * 50;
-
-      const moveY =
-        scrollValue * 0.6;
-
-      const scale =
-        0.75 + (scrollValue * 0.0003);
-
-      this.cameraTransform.set(`
-        translateX(${moveX}px)
-        translateY(${moveY}px)
-        scale(${scale})
-        rotateY(${rotateY}deg)
-        rotateX(${rotateX}deg)
-      `);
-    }
-    else {
-
-      this.cameraTransform.set(`
-        translateX(40px)
-        scale(0.75)
-        rotateY(-15deg)
-        rotateX(5deg)
-      `);
-    }
-  }
-
-  @HostListener('window:resize')
-  onResize(): void {
-
-    const canvas =
-      this.particlesCanvas.nativeElement;
-
-    canvas.width = window.innerWidth;
-
-    canvas.height = window.innerHeight;
-  }
-
   private initializeParticles(): void {
 
     const canvas =
@@ -240,10 +120,7 @@ export class HeroComponent
       canvas.getContext('2d')!;
 
     canvas.width = window.innerWidth;
-
     canvas.height = window.innerHeight;
-
-    this.particles = [];
 
     for (let i = 0; i < 120; i++) {
 
@@ -278,40 +155,5 @@ export class HeroComponent
       requestAnimationFrame(() =>
         this.animateParticles()
       );
-  }
-
-  private runBootSequence(): void {
-
-    let phase = 0;
-
-    const interval = setInterval(() => {
-
-      if (phase < this.bootPhrases.length) {
-
-        this.bootText.set(
-          this.bootPhrases[phase]
-        );
-
-        phase++;
-      }
-      else {
-
-        clearInterval(interval);
-
-        this.isBooted.set(true);
-      }
-
-    }, 450);
-  }
-
-  private startLiveFeedClock(): void {
-
-    this.timerId = setInterval(() => {
-
-      this.currentTime.set(
-        new Date()
-      );
-
-    }, 1000);
   }
 }
