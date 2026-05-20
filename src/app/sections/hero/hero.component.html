@@ -1,124 +1,106 @@
-<!-- hero.component.html -->
-
 <section class="hero-container">
 
-  <!-- PARTICLES -->
+    <canvas #particlesCanvas class="particles"></canvas>
 
-  <canvas #particlesCanvas></canvas>
+    <div class="grid"></div>
 
-  <!-- GRID -->
+    <div class="hero-middle">
 
-  <div class="grid"></div>
+        <!-- LEFT CONTENT -->
 
-  <div class="hero-middle">
+        <div class="hero-content">
 
-    <!-- LEFT -->
+            <div class="status-chip">
+                <span class="dot"></span>
+                AI CCTV SECURITY ACTIVE
+            </div>
 
-    <div class="hero-content">
+            <h1>
+                INTELLIGENT
+                <span class="accent-text">SURVEILLANCE</span>
+                SYSTEM
+            </h1>
 
-      <div class="status-chip">
-        AI CCTV SECURITY ACTIVE
-      </div>
+            <p>
+                Autonomous threat analytics with AI-powered
+                monitoring and high precision CCTV tracking.
+            </p>
 
-      <h1>
+            <div class="cta-group">
 
-        INTELLIGENT <br>
+                <button class="btn btn-primary">
+                    INITIALIZE
+                </button>
 
-        <span class="accent-text">
-          SURVEILLANCE
-        </span>
-
-        ARCHITECTURE
-
-      </h1>
-
-      <p>
-        Autonomous threat analytics.
-        High precision tactical tracking.
-        Enterprise network protection.
-      </p>
-
-      <div class="cta-group">
-
-        <a class="btn btn-primary">
-          INITIALIZE DEPLOYMENT
-        </a>
-
-        <a class="btn btn-secondary">
-          VIEW ARCHIVE
-        </a>
-
-      </div>
-
-    </div>
-
-    <!-- RIGHT -->
-
-    <div class="hero-visuals">
-
-      <div class="camera-wrapper">
-
-        <!-- RINGS -->
-
-        <div class="ring ring1"></div>
-        <div class="ring ring2"></div>
-        <div class="ring ring3"></div>
-
-        <!-- CAMERA -->
-
-        <div
-          class="camera"
-
-          [class.left]="cameraPosition() === 'left'"
-
-          [class.center]="cameraPosition() === 'center'"
-
-          [class.right]="cameraPosition() === 'right'"
-
-          (click)="changeCameraAngle()">
-
-          <!-- MOUNT -->
-
-          <div class="mount"></div>
-
-          <!-- BODY -->
-
-          <div class="body">
-
-            <div class="shine"></div>
-
-            <div class="indicator i1"></div>
-
-            <div class="indicator i2"></div>
-
-            <!-- LENS -->
-
-            <div class="lens-box">
-
-              <div class="lens-outer">
-
-                <div class="lens">
-
-                  <div class="scan"></div>
-
-                </div>
-
-              </div>
+                <button class="btn btn-secondary">
+                    VIEW LIVE
+                </button>
 
             </div>
 
-          </div>
+        </div>
 
-          <!-- LASER -->
+        <!-- RIGHT CAMERA -->
 
-          <div class="laser"></div>
+        <div class="hero-visuals">
+
+            <div class="camera-wrapper">
+
+                <!-- Rings -->
+
+                <div class="ring ring1"></div>
+                <div class="ring ring2"></div>
+                <div class="ring ring3"></div>
+
+                <!-- Camera -->
+
+                <div
+                    class="camera"
+                    [ngClass]="cameraPosition"
+                    (click)="changeAngle()"
+                >
+
+                    <div class="mount"></div>
+
+                    <div class="body">
+
+                        <div class="shine"></div>
+
+                        <div class="indicator i1"></div>
+                        <div class="indicator i2"></div>
+
+                        <div class="lens-box">
+
+                            <div class="lens-outer">
+
+                                <div class="lens">
+                                    <div class="scan"></div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="laser"></div>
+
+                </div>
+
+                <!-- HUD -->
+
+                <div class="hud hud1">
+                    AI TRACKING ACTIVE
+                </div>
+
+                <div class="hud hud2">
+                    FACE DETECTION 99%
+                </div>
+
+            </div>
 
         </div>
 
-      </div>
-
     </div>
-
-  </div>
 
 </section>
