@@ -264,3 +264,69 @@
         }
     }
 }
+
+/* ==========================================================================
+   HERO MIDDLE LAYOUT & PARALLAX CAMERA
+   ========================================================================== */
+
+.hero-middle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    flex: 1;
+    /* Pushes the top and bottom HUD elements to the edges */
+    gap: 40px;
+    z-index: 6;
+}
+
+/* Ensure the text side doesn't stretch too far */
+.hero-content {
+    flex: 1;
+    max-width: 600px;
+}
+
+/* The right-side camera container */
+.hero-visuals {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+}
+
+/* The Animated Camera Image */
+.hero-floating-cam {
+    width: 100%;
+    max-width: 550px;
+    height: auto;
+    object-fit: contain;
+
+    /* Heavy 3D shadow for the transparent PNG */
+    filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.7));
+
+    /* Smooths out the scroll calculations so it glides seamlessly */
+    transition: transform 0.1s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+/* Make it stack nicely on mobile screens */
+@media(max-width: 1024px) {
+    .hero-middle {
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .hero-content {
+        text-align: center;
+    }
+
+    .hero-visuals {
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .hero-floating-cam {
+        max-width: 350px;
+    }
+}

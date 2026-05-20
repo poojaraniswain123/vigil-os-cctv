@@ -1,4 +1,4 @@
-import { Component, OnInit, signal, computed, OnDestroy } from '@angular/core';
+import { Component, OnInit, signal, computed, OnDestroy, HostListener } from '@angular/core';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
 
 @Component({
@@ -25,14 +25,18 @@ export class HeroComponent implements OnInit, OnDestroy {
   // Signals for system boot sequence
   protected bootText = signal<string>('');
   protected isBooted = signal<boolean>(false);
-
+  cameraOffset = signal<number>(0);
   // Signal for live updating CCTV timestamp
   private currentTime = signal<Date>(new Date());
   protected formattedTimestamp = computed(() => {
     const d = this.currentTime();
     return `${d.toLocaleDateString()} // ${d.toLocaleTimeString()}`;
   });
-
+  @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    // Multiplying by 0.35 creates a smooth, delayed floating effect
+    this.cameraOffset.set(window.scrollY * 0.35);
+  }
   private timerId: any;
   private bootPhrases = [
     'INITIALIZING CORE_VIGIL_OS... DONE',

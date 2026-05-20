@@ -30,19 +30,29 @@
             </div>
         </div> -->
 
-        <div class="hero-content">
-            <h1 class="hud-element">INTELLIGENT<br><span class="accent-text">SURVEILLANCE</span> ARCHITECTURE</h1>
-            <p class="hud-element">Autonomous threat analytics. High-precision tactical tracking hardware. Enterprise
-                network security matrices.</p>
-            <div class="cta-group hud-element">
-                <a href="#services" class="btn btn-primary">INITIALIZE DEPLOYMENT</a>
-                <a href="#live-feed" class="btn btn-secondary">VIEW ARCHIVE // ACTIVE</a>
+        <div class="hud-wrapper">
+            <div class="hero-middle">
+        
+                <div class="hero-content">
+                    <h1 class="hud-element">INTELLIGENT<br><span class="accent-text">SURVEILLANCE</span> ARCHITECTURE</h1>
+                    <p class="hud-element">Autonomous threat analytics. High-precision tactical tracking hardware. Enterprise
+                        network security matrices.</p>
+                    <div class="cta-group hud-element">
+                        <a href="#services" class="btn btn-primary">INITIALIZE DEPLOYMENT</a>
+                        <a href="#live-feed" class="btn btn-secondary">VIEW ARCHIVE // ACTIVE</a>
+                    </div>
+                </div>
+        
+                <div class="hero-visuals hud-element">
+                    <img src="/cameras/hero-cam.png" alt="VIGIL_OS Hardware" class="hero-floating-cam"
+                        [style.transform]="'translateY(' + cameraOffset() + 'px)'">
+                </div>
+        
             </div>
-        </div>
-
-        <div class="hud-bottom">
-            <span class="hud-element">LAT_COORD: 40.7128° N // LON_COORD: 74.0060° W</span>
-            <span class="hud-element">VIGIL_OS v19.0.4 // SYSTEM STABLE</span>
+            <div class="hud-bottom">
+                <span class="hud-element">LAT_COORD: 40.7128° N // LON_COORD: 74.0060° W</span>
+                <span class="hud-element">VIGIL_OS v19.0.4 // SYSTEM STABLE</span>
+            </div>
         </div>
     </div>
 </section>
