@@ -1,7 +1,7 @@
-<section class="hero-container">
+<section id="home" class="hero-container">
 
     <!-- particles -->
-    <canvas id="particles"></canvas>
+    <canvas #particlesCanvas class="particles-canvas"></canvas>
 
     <!-- futuristic grid -->
     <div class="grid"></div>
@@ -12,11 +12,11 @@
 
         <div class="hero-content">
 
-            <div class="status-chip">
+            <div class="status-chip hud-element">
                 AI CCTV SECURITY ACTIVE
             </div>
 
-            <h1>
+            <h1 class="hud-element">
                 INTELLIGENT<br>
 
                 <span class="accent-text">
@@ -26,13 +26,13 @@
                 ARCHITECTURE
             </h1>
 
-            <p>
+            <p class="hud-element">
                 Autonomous threat analytics.
                 High-precision tactical tracking hardware.
                 Enterprise network security matrices.
             </p>
 
-            <div class="cta-group">
+            <div class="cta-group hud-element">
 
                 <a href="#"
                     class="btn btn-primary">
@@ -50,7 +50,7 @@
 
         <!-- RIGHT CAMERA -->
 
-        <div class="hero-visuals">
+        <div class="hero-visuals hud-element">
 
             <div class="camera-wrapper">
 
@@ -63,7 +63,8 @@
                 <!-- camera -->
 
                 <div class="camera"
-                    [ngClass]="cameraClass"
+                    [ngClass]="cameraAngle()"
+                    [style.transform]="cameraTransform()"
                     (click)="changeAngle()">
 
                     <!-- mount -->
@@ -112,10 +113,6 @@
 
                 <div class="hud hud3">
                     LIVE CCTV MONITORING
-                </div>
-
-                <div class="info">
-                    CLICK CAMERA TO CHANGE ANGLE
                 </div>
 
             </div>
