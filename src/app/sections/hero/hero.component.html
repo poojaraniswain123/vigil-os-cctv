@@ -1,10 +1,14 @@
 <section id="home" class="hero-container">
 
     <!-- particles -->
+
     <canvas #particlesCanvas class="particles-canvas"></canvas>
 
     <!-- futuristic grid -->
+
     <div class="grid"></div>
+
+    <!-- main content -->
 
     <div class="hero-middle">
 
@@ -12,11 +16,11 @@
 
         <div class="hero-content">
 
-            <div class="status-chip hud-element">
+            <div class="status-chip">
                 AI CCTV SECURITY ACTIVE
             </div>
 
-            <h1 class="hud-element">
+            <h1>
                 INTELLIGENT<br>
 
                 <span class="accent-text">
@@ -26,22 +30,26 @@
                 ARCHITECTURE
             </h1>
 
-            <p class="hud-element">
+            <p>
                 Autonomous threat analytics.
                 High-precision tactical tracking hardware.
                 Enterprise network security matrices.
             </p>
 
-            <div class="cta-group hud-element">
+            <div class="cta-group">
 
                 <a href="#"
                     class="btn btn-primary">
+
                     INITIALIZE DEPLOYMENT
+
                 </a>
 
                 <a href="#"
                     class="btn btn-secondary">
+
                     VIEW ARCHIVE // ACTIVE
+
                 </a>
 
             </div>
@@ -50,17 +58,17 @@
 
         <!-- RIGHT CAMERA -->
 
-        <div class="hero-visuals hud-element">
+        <div class="hero-visuals">
 
             <div class="camera-wrapper">
 
-                <!-- rings -->
+                <!-- rotating rings -->
 
                 <div class="ring ring1"></div>
                 <div class="ring ring2"></div>
                 <div class="ring ring3"></div>
 
-                <!-- camera -->
+                <!-- CAMERA -->
 
                 <div class="camera"
                     [ngClass]="cameraAngle()"
@@ -68,18 +76,22 @@
                     (click)="changeAngle()">
 
                     <!-- mount -->
+
                     <div class="mount"></div>
 
                     <!-- body -->
+
                     <div class="body">
 
                         <div class="shine"></div>
 
                         <!-- indicators -->
+
                         <div class="indicator i1"></div>
                         <div class="indicator i2"></div>
 
                         <!-- lens -->
+
                         <div class="lens-box">
 
                             <div class="lens-outer">
@@ -97,11 +109,12 @@
                     </div>
 
                     <!-- laser -->
+
                     <div class="laser"></div>
 
                 </div>
 
-                <!-- hud -->
+                <!-- HUD -->
 
                 <div class="hud hud1">
                     AI TRACKING ACTIVE
