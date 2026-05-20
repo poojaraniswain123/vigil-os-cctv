@@ -35,7 +35,11 @@ export class HeroComponent implements OnInit, OnDestroy {
   @HostListener('window:scroll', ['$event'])
   onScroll() {
     // Multiplying by 0.35 creates a smooth, delayed floating effect
-    this.cameraOffset.set(window.scrollY * 0.35);
+    const scrollVal = window.scrollY;
+    this.cameraOffset.set(scrollVal * 0.4);
+
+    // ADD THIS LINE TEMPORARILY:
+    console.log('Scroll detected! Value:', scrollVal);
   }
   private timerId: any;
   private bootPhrases = [
