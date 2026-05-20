@@ -1,117 +1,163 @@
 import {
-    Component,
-    ElementRef,
-    ViewChild,
-    AfterViewInit
+  AfterViewInit,
+  Component
 } from '@angular/core';
 
 @Component({
-    selector: 'app-hero',
-    standalone: true,
-    templateUrl: './hero.component.html',
-    styleUrls: ['./hero.component.scss']
+  selector: 'app-hero',
+  templateUrl: './hero.component.html',
+  styleUrls: ['./hero.component.scss']
 })
 export class HeroComponent implements AfterViewInit {
 
-    @ViewChild('particlesCanvas')
-    canvasRef!: ElementRef<HTMLCanvasElement>;
+  cameraClass = 'center';
 
-    cameraPosition: string = 'center';
+  private angle = 0;
 
-    private ctx!: CanvasRenderingContext2D;
+  changeAngle(): void {
 
-    particles: any[] = [];
+    this.angle++;
 
-    ngAfterViewInit(): void {
+    if (this.angle === 1) {
 
-        this.initCanvas();
-        this.createParticles();
-        this.animateParticles();
+      this.cameraClass = 'left';
+
     }
 
-    changeAngle(): void {
+    else if (this.angle === 2) {
 
-        if (this.cameraPosition === 'center') {
+      this.cameraClass = 'right';
 
-            this.cameraPosition = 'left';
+    }
 
-        } else if (this.cameraPosition === 'left') {
+    else {
 
-            this.cameraPosition = 'right';
+      this.cameraClass = 'center';
+      this.angle = 0;
 
-        } else {
+    }
 
-            this.cameraPosition = 'center';
+  }
+
+  ngAfterViewInit(): void {
+
+    this.initializeParticles();
+
+  }
+
+  initializeParticles(): void {
+
+    const canvas =
+      document.getElementById('particles') as HTMLCanvasElement;
+
+    const ctx =
+      canvas.getContext('2d');
+
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: any[] = [];
+
+    class Particle {
+
+      x: number;
+      y: number;
+      size: number;
+      speedY: number;
+      opacity: number;
+
+      constructor() {
+
+        this.x =
+          Math.random() * canvas.width;
+
+        this.y =
+          Math.random() * canvas.height;
+
+        this.size =
+          Math.random() * 2 + 1;
+
+        this.speedY =
+          Math.random() * 1 + .2;
+
+        this.opacity =
+          Math.random();
+
+      }
+
+      update() {
+
+        this.y -= this.speedY;
+
+        if (this.y < 0) {
+
+          this.y = canvas.height;
+
+          this.x =
+            Math.random() * canvas.width;
+
         }
-    }
 
-    initCanvas(): void {
+      }
 
-        const canvas = this.canvasRef.nativeElement;
+      draw() {
 
-        this.ctx = canvas.getContext('2d')!;
+        ctx.fillStyle =
+          `rgba(0,255,255,${this.opacity})`;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-    }
+        ctx.beginPath();
 
-    createParticles(): void {
-
-        const canvas = this.canvasRef.nativeElement;
-
-        for (let i = 0; i < 120; i++) {
-
-            this.particles.push({
-
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                size: Math.random() * 2 + 1,
-                speed: Math.random() * 1 + 0.3,
-                opacity: Math.random()
-            });
-        }
-    }
-
-    animateParticles(): void {
-
-        const canvas = this.canvasRef.nativeElement;
-
-        this.ctx.clearRect(
-            0,
-            0,
-            canvas.width,
-            canvas.height
+        ctx.arc(
+          this.x,
+          this.y,
+          this.size,
+          0,
+          Math.PI * 2
         );
 
-        this.particles.forEach((particle) => {
+        ctx.fill();
 
-            particle.y -= particle.speed;
+      }
 
-            if (particle.y < 0) {
-
-                particle.y = canvas.height;
-                particle.x = Math.random() * canvas.width;
-            }
-
-            this.ctx.fillStyle =
-                `rgba(0,255,255,${particle.opacity})`;
-
-            this.ctx.beginPath();
-
-            this.ctx.arc(
-                particle.x,
-                particle.y,
-                particle.size,
-                0,
-                Math.PI * 2
-            );
-
-            this.ctx.fill();
-        });
-
-        requestAnimationFrame(() => {
-
-            this.animateParticles();
-        });
     }
+
+    for (let i = 0; i < 120; i++) {
+
+      particles.push(new Particle());
+
+    }
+
+    const animate = () => {
+
+      ctx.clearRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      particles.forEach((p: any) => {
+
+        p.update();
+        p.draw();
+
+      });
+
+      requestAnimationFrame(animate);
+
+    };
+
+    animate();
+
+    window.addEventListener('resize', () => {
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+    });
+
+  }
+
 }
