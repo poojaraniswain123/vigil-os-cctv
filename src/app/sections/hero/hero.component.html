@@ -1,14 +1,18 @@
+<!-- hero.component.html -->
+
 <section class="hero-container">
 
   <!-- PARTICLES -->
+
   <canvas #particlesCanvas></canvas>
 
   <!-- GRID -->
+
   <div class="grid"></div>
 
   <div class="hero-middle">
 
-    <!-- LEFT CONTENT -->
+    <!-- LEFT -->
 
     <div class="hero-content">
 
@@ -17,6 +21,7 @@
       </div>
 
       <h1>
+
         INTELLIGENT <br>
 
         <span class="accent-text">
@@ -24,12 +29,13 @@
         </span>
 
         ARCHITECTURE
+
       </h1>
 
       <p>
         Autonomous threat analytics.
-        High-precision tactical tracking hardware.
-        Enterprise network security matrices.
+        High precision tactical tracking.
+        Enterprise network protection.
       </p>
 
       <div class="cta-group">
@@ -39,14 +45,14 @@
         </a>
 
         <a class="btn btn-secondary">
-          VIEW ARCHIVE // ACTIVE
+          VIEW ARCHIVE
         </a>
 
       </div>
 
     </div>
 
-    <!-- CAMERA SECTION -->
+    <!-- RIGHT -->
 
     <div class="hero-visuals">
 
@@ -62,21 +68,27 @@
 
         <div
           class="camera"
+
           [class.left]="cameraPosition() === 'left'"
+
           [class.center]="cameraPosition() === 'center'"
+
           [class.right]="cameraPosition() === 'right'"
+
           (click)="changeCameraAngle()">
 
           <!-- MOUNT -->
+
           <div class="mount"></div>
 
           <!-- BODY -->
+
           <div class="body">
 
             <div class="shine"></div>
 
-            <!-- INDICATORS -->
             <div class="indicator i1"></div>
+
             <div class="indicator i2"></div>
 
             <!-- LENS -->
@@ -98,18 +110,9 @@
           </div>
 
           <!-- LASER -->
+
           <div class="laser"></div>
 
-        </div>
-
-        <!-- HUD -->
-
-        <div class="hud hud1">
-          AI TRACKING ACTIVE
-        </div>
-
-        <div class="hud hud2">
-          FACE DETECTION : 99%
         </div>
 
       </div>
