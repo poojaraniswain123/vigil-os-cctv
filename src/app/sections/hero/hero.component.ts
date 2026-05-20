@@ -1,10 +1,11 @@
 import { Component, OnInit, signal, computed, OnDestroy, HostListener } from '@angular/core';
 import { trigger, transition, style, animate, query, stagger } from '@angular/animations';
+import { CameraVisualComponent } from '../../components/camera-visual/camera-visual.component';
 
 @Component({
   selector: 'app-hero',
   standalone: true,
-  imports: [],
+  imports: [CameraVisualComponent],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
   animations: [
@@ -38,50 +39,6 @@ export class HeroComponent implements OnInit, OnDestroy {
     'DECRYPTING VIDEO STREAM SUBSYSTEMS... SUCCESS',
     'OPENING LENS BLADES...'
   ];
-
-  cameraTransform = signal<string>('translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)');
-  cameraOpacity = signal<number>(1);
-
-  @HostListener('document:mousemove', ['$event'])
-  onMouseMove(e: MouseEvent) {
-    if (window.scrollY > 50) return;
-
-    const x = (window.innerWidth / 2 - e.clientX) / 35;
-    const y = (window.innerHeight / 2 - e.clientY) / 35;
-
-    this.cameraTransform.set(`translateX(40px) scale(0.75) rotateY(${x}deg) rotateX(${y}deg)`);
-  }
-
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    const scrollValue = window.scrollY || document.documentElement.scrollTop;
-
-    // 1. VANISHING: Fades out completely by 600px of scrolling
-    const newOpacity = Math.max(0, 1 - (scrollValue / 600));
-    this.cameraOpacity.set(newOpacity);
-
-    if (scrollValue > 5) {
-      const rotateY = scrollValue * 0.15;
-      const rotateX = Math.sin(scrollValue * 0.02) * 15;
-
-      // 2. MOVES TO MIDDLE: Subtracts from 40px to pull the camera leftwards (center)
-      const moveX = 40 - (scrollValue * 0.2);
-
-      // 3. SCROLLS WITH PAGE: Lowered from 0.95 to 0.25 so it scrolls UP with the page naturally
-      const moveY = scrollValue * 0.25;
-      const scale = 0.75 - (scrollValue * 0.0001); // Shrinks slightly as it fades
-
-      this.cameraTransform.set(`
-        translateX(${moveX}px)
-        translateY(${moveY}px)
-        scale(${scale})
-        rotateY(${rotateY}deg)
-        rotateX(${rotateX}deg)
-      `);
-    } else {
-      this.cameraTransform.set('translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)');
-    }
-  }
 
   ngOnInit(): void {
     this.runBootSequence();

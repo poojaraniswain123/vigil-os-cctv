@@ -11,7 +11,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    /* Removed overflow: hidden so the camera can parallax smoothly */
+    /* OVERFLOW MUST BE REMOVED FOR THE CAMERA TO TRAVEL DOWN */
     padding: 0 10%;
     box-sizing: border-box;
     margin-top: 120px;
@@ -35,11 +35,11 @@
 
 @keyframes scanlineMovement {
     0% {
-        transform: translateY(-100%);
+        transform: translateY(-100%)
     }
 
     100% {
-        transform: translateY(100%);
+        transform: translateY(100%)
     }
 }
 
@@ -133,15 +133,6 @@
     z-index: 5;
 }
 
-.hud-bottom {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'Courier New', monospace;
-    font-size: 0.9rem;
-    color: var(--text-secondary);
-    letter-spacing: 2px;
-}
-
 .hero-middle {
     display: flex;
     align-items: center;
@@ -154,13 +145,15 @@
 
 .hero-content {
     flex: 0 0 50%;
-    max-width: 650px;
+    max-width: 600px;
     text-align: left;
+    z-index: 5;
 
     h1 {
         font-size: clamp(2.5rem, 6vw, 4.5rem);
         line-height: 1.1;
         margin-bottom: 20px;
+        max-width: 90%;
     }
 
     p {
@@ -211,7 +204,7 @@
 }
 
 /* ==========================================================================
-   6. PURE CSS 3D CAMERA MODULE
+   6. PURE CSS 3D CAMERA MODULE (WATERMARK LAYER)
    ========================================================================== */
 
 .hero-visuals {
@@ -220,7 +213,7 @@
     justify-content: flex-end;
     align-items: center;
     position: relative;
-    /* LOWERED Z-INDEX: So your "Trusted By" section scrolls over top of the camera */
+    /* 🔥 Z-INDEX 0: This guarantees the camera goes behind all your other pages! */
     z-index: 1;
 }
 
@@ -274,7 +267,8 @@
     position: relative;
     transform-style: preserve-3d;
     filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.8));
-    transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+    /* Buttery smooth transition for the centering logic */
+    transition: transform 0.1s linear, opacity 0.2s ease;
     transform: scale(0.85);
 }
 
@@ -500,7 +494,6 @@
     }
 }
 
-/* Responsive adjustments */
 @media(max-width: 1024px) {
     .hero-middle {
         flex-direction: column;
@@ -528,16 +521,5 @@
 
     .cta-group {
         justify-content: center;
-    }
-}
-
-@media(max-width: 768px) {
-    .hud-wrapper {
-        padding: 20px;
-    }
-
-    .hud-top,
-    .hud-bottom {
-        font-size: 0.75rem;
     }
 }

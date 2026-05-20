@@ -4,22 +4,29 @@
 
 .how-it-works-section {
     padding: 100px 10%;
-    position: relative;
-    z-index: 10;
-    background-color: var(--bg-color);
+        position: relative;
+        z-index: 5;
+        background-color: transparent;
 }
 
 .section-header {
     text-align: center;
-    margin-bottom: 80px;
-
-    .header-glitch {
-        font-family: 'Orbitron', sans-serif;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: var(--text-primary);
-        letter-spacing: 2px;
-    }
+        margin-bottom: 80px;
+        position: relative;
+        z-index: 6;
+        /* 3. Subtle glow background to protect header text from camera details */
+        background: radial-gradient(circle, rgba(8, 9, 13, 0.7) 0%, transparent 80%);
+        padding: 20px;
+    
+        .header-glitch {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            text-shadow: 0 0 15px rgba(0, 0, 0, 1);
+            /* Shadow for better contrast */
+        }
 
     p {
         color: var(--text-secondary);

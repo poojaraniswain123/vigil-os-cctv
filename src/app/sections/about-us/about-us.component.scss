@@ -4,15 +4,23 @@
 
 .about-container {
     padding: 100px 10%;
-    background-color: var(--bg-color);
-    color: var(--text-primary);
+        /* 1. Make background transparent to see the watermark */
+        background-color: transparent;
+        color: var(--text-primary);
+        /* 2. Elevate section above the fixed camera */
+        position: relative;
+        z-index: 5;
 }
 
 .section-title {
     font-family: 'Orbitron', sans-serif;
-    font-size: 2.5rem;
-    margin-bottom: 10px;
-    letter-spacing: 3px;
+        font-size: 2.5rem;
+        margin-bottom: 10px;
+        letter-spacing: 3px;
+        /* 3. Ensure title is readable against camera */
+        position: relative;
+        z-index: 5;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
 }
 
 .subtitle {
@@ -24,24 +32,27 @@
 
 .about-grid {
     display: grid;
-    /* Create 3 equal columns */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-top: 40px;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 30px;
+        margin-top: 40px;
+        position: relative;
+        z-index: 5;
 }
 
 .about-card {
-    background: rgba(255, 255, 255, 0.03);
+background: rgba(8, 9, 13, 0.85);
+    backdrop-filter: blur(8px);
+
     border: 1px solid rgba(0, 255, 200, 0.1);
     padding: 30px;
     border-radius: 4px;
     transition: all 0.4s ease;
 
     &:hover {
-        background: rgba(0, 255, 200, 0.05);
+        background: rgba(0, 255, 200, 0.08);
         border: 1px solid var(--accent-color);
         transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
     }
 }
 
