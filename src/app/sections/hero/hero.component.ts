@@ -1,219 +1,117 @@
-// hero.component.ts
-
 import {
-  Component,
-  ElementRef,
-  ViewChild,
-  AfterViewInit,
-  OnDestroy,
-  signal
+    Component,
+    ElementRef,
+    ViewChild,
+    AfterViewInit
 } from '@angular/core';
 
-/* =========================
-   PARTICLE CLASS
-========================= */
-
-class Particle {
-
-  x: number;
-  y: number;
-  size: number;
-  speedY: number;
-  opacity: number;
-
-  constructor(
-    private canvas: HTMLCanvasElement
-  ) {
-
-    this.x =
-      Math.random() * canvas.width;
-
-    this.y =
-      Math.random() * canvas.height;
-
-    this.size =
-      Math.random() * 2 + 1;
-
-    this.speedY =
-      Math.random() * 1 + 0.2;
-
-    this.opacity =
-      Math.random();
-  }
-
-  update() {
-
-    this.y -= this.speedY;
-
-    if (this.y < 0) {
-
-      this.y = this.canvas.height;
-
-      this.x =
-        Math.random() * this.canvas.width;
-    }
-  }
-
-  draw(ctx: CanvasRenderingContext2D) {
-
-    ctx.fillStyle =
-      `rgba(0,255,255,${this.opacity})`;
-
-    ctx.beginPath();
-
-    ctx.arc(
-      this.x,
-      this.y,
-      this.size,
-      0,
-      Math.PI * 2
-    );
-
-    ctx.fill();
-  }
-}
-
-/* =========================
-   COMPONENT
-========================= */
-
 @Component({
-  selector: 'app-hero',
-  standalone: true,
-  templateUrl: './hero.component.html',
-  styleUrl: './hero.component.scss'
+    selector: 'app-hero',
+    standalone: true,
+    templateUrl: './hero.component.html',
+    styleUrls: ['./hero.component.scss']
 })
-export class HeroComponent
-implements AfterViewInit, OnDestroy {
+export class HeroComponent implements AfterViewInit {
 
-  /* =========================
-     CANVAS
-  ========================= */
+    @ViewChild('particlesCanvas')
+    canvasRef!: ElementRef<HTMLCanvasElement>;
 
-  @ViewChild('particlesCanvas')
-  particlesCanvas!: ElementRef<HTMLCanvasElement>;
+    cameraPosition: string = 'center';
 
-  /* =========================
-     CAMERA ANGLE
-  ========================= */
+    private ctx!: CanvasRenderingContext2D;
 
-  protected cameraPosition =
-    signal<'left' | 'center' | 'right'>(
-      'center'
-    );
+    particles: any[] = [];
 
-  private angle = 0;
+    ngAfterViewInit(): void {
 
-  /* =========================
-     PARTICLES
-  ========================= */
-
-  private ctx!: CanvasRenderingContext2D;
-
-  private particles: Particle[] = [];
-
-  private animationFrameId = 0;
-
-  /* =========================
-     LIFE CYCLE
-  ========================= */
-
-  ngAfterViewInit(): void {
-
-    this.initializeParticles();
-  }
-
-  ngOnDestroy(): void {
-
-    cancelAnimationFrame(
-      this.animationFrameId
-    );
-  }
-
-  /* =========================
-     CAMERA CLICK
-  ========================= */
-
-  changeCameraAngle(): void {
-
-    this.angle++;
-
-    if (this.angle === 1) {
-
-      this.cameraPosition.set('left');
+        this.initCanvas();
+        this.createParticles();
+        this.animateParticles();
     }
 
-    else if (this.angle === 2) {
+    changeAngle(): void {
 
-      this.cameraPosition.set('right');
+        if (this.cameraPosition === 'center') {
+
+            this.cameraPosition = 'left';
+
+        } else if (this.cameraPosition === 'left') {
+
+            this.cameraPosition = 'right';
+
+        } else {
+
+            this.cameraPosition = 'center';
+        }
     }
 
-    else {
+    initCanvas(): void {
 
-      this.cameraPosition.set('center');
+        const canvas = this.canvasRef.nativeElement;
 
-      this.angle = 0;
-    }
-  }
+        this.ctx = canvas.getContext('2d')!;
 
-  /* =========================
-     PARTICLE INIT
-  ========================= */
-
-  private initializeParticles(): void {
-
-    const canvas =
-      this.particlesCanvas.nativeElement;
-
-    this.ctx =
-      canvas.getContext('2d')!;
-
-    canvas.width =
-      window.innerWidth;
-
-    canvas.height =
-      window.innerHeight;
-
-    /* CREATE PARTICLES */
-
-    for (let i = 0; i < 120; i++) {
-
-      this.particles.push(
-        new Particle(canvas)
-      );
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
     }
 
-    this.animateParticles();
-  }
+    createParticles(): void {
 
-  /* =========================
-     ANIMATION
-  ========================= */
+        const canvas = this.canvasRef.nativeElement;
 
-  private animateParticles(): void {
+        for (let i = 0; i < 120; i++) {
 
-    const canvas =
-      this.particlesCanvas.nativeElement;
+            this.particles.push({
 
-    this.ctx.clearRect(
-      0,
-      0,
-      canvas.width,
-      canvas.height
-    );
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 2 + 1,
+                speed: Math.random() * 1 + 0.3,
+                opacity: Math.random()
+            });
+        }
+    }
 
-    this.particles.forEach(
-      particle => {
+    animateParticles(): void {
 
-        particle.update();
+        const canvas = this.canvasRef.nativeElement;
 
-        particle.draw(this.ctx);
-      }
-    );
+        this.ctx.clearRect(
+            0,
+            0,
+            canvas.width,
+            canvas.height
+        );
 
-    this.animationFrameId =
-      requestAnimationFrame(() =>
-        this.animateParticles()
-      );
-  }
+        this.particles.forEach((particle) => {
+
+            particle.y -= particle.speed;
+
+            if (particle.y < 0) {
+
+                particle.y = canvas.height;
+                particle.x = Math.random() * canvas.width;
+            }
+
+            this.ctx.fillStyle =
+                `rgba(0,255,255,${particle.opacity})`;
+
+            this.ctx.beginPath();
+
+            this.ctx.arc(
+                particle.x,
+                particle.y,
+                particle.size,
+                0,
+                Math.PI * 2
+            );
+
+            this.ctx.fill();
+        });
+
+        requestAnimationFrame(() => {
+
+            this.animateParticles();
+        });
+    }
 }
