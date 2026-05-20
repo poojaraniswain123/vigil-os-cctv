@@ -11,13 +11,12 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
+    /* Removed overflow: hidden so the camera can parallax smoothly */
     padding: 0 10%;
     box-sizing: border-box;
     margin-top: 120px;
 }
 
-/* 1. Moving Refresh Scanline Sweep */
 .scanline {
     position: absolute;
     top: 0;
@@ -35,11 +34,15 @@
 }
 
 @keyframes scanlineMovement {
-    0% { transform: translateY(-100%); }
-    100% { transform: translateY(100%); }
+    0% {
+        transform: translateY(-100%);
+    }
+
+    100% {
+        transform: translateY(100%);
+    }
 }
 
-/* 2. Boot Terminal Overlay Styles */
 .boot-terminal {
     position: absolute;
     inset: 0;
@@ -78,23 +81,48 @@
         transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1);
     }
 
-    .b1 { transform-origin: top left; clip-path: polygon(0 0, 100% 0, 50% 50%); }
-    .b2 { transform-origin: top right; clip-path: polygon(100% 0, 100% 100%, 50% 50%); }
-    .b3 { transform-origin: bottom right; clip-path: polygon(100% 100%, 0 100%, 50% 50%); }
-    .b4 { transform-origin: bottom left; clip-path: polygon(0 100%, 0 0, 50% 50%); }
+    .b1 {
+        transform-origin: top left;
+        clip-path: polygon(0 0, 100% 0, 50% 50%);
+    }
+
+    .b2 {
+        transform-origin: top right;
+        clip-path: polygon(100% 0, 100% 100%, 50% 50%);
+    }
+
+    .b3 {
+        transform-origin: bottom right;
+        clip-path: polygon(100% 100%, 0 100%, 50% 50%);
+    }
+
+    .b4 {
+        transform-origin: bottom left;
+        clip-path: polygon(0 100%, 0 0, 50% 50%);
+    }
 
     &.open {
         opacity: 0;
         visibility: hidden;
 
-        .b1 { transform: scale(0) rotate(-45deg); }
-        .b2 { transform: scale(0) rotate(45deg); }
-        .b3 { transform: scale(0) rotate(-45deg); }
-        .b4 { transform: scale(0) rotate(45deg); }
+        .b1 {
+            transform: scale(0) rotate(-45deg);
+        }
+
+        .b2 {
+            transform: scale(0) rotate(45deg);
+        }
+
+        .b3 {
+            transform: scale(0) rotate(-45deg);
+        }
+
+        .b4 {
+            transform: scale(0) rotate(45deg);
+        }
     }
 }
 
-/* 4. CCTV HUD Display Layers */
 .hud-wrapper {
     position: absolute;
     inset: 0;
@@ -114,39 +142,34 @@
     letter-spacing: 2px;
 }
 
-/* 5. Center Layout (Left Text, Right Camera) */
 .hero-middle {
     display: flex;
     align-items: center;
     justify-content: space-between;
     width: 100%;
-    flex: 1; 
-    gap: 40px; /* Forces space so they don't overlap */
+    flex: 1;
+    gap: 20px;
     z-index: 6;
 }
 
 .hero-content {
-   flex: 0 0 50%; /* Keeps text constrained */
+    flex: 0 0 50%;
     max-width: 650px;
     text-align: left;
-    
+
     h1 {
-        font-size: clamp(2.5rem, 5vw, 4.2rem);
-        line-height: 1.2;
+        font-size: clamp(2.5rem, 6vw, 4.5rem);
+        line-height: 1.1;
         margin-bottom: 20px;
     }
 
     p {
-        font-size: clamp(1rem, 2vw, 1.15rem);
+        font-size: clamp(1rem, 2vw, 1.25rem);
         color: var(--text-secondary);
         max-width: 600px;
         margin-bottom: 40px;
         line-height: 1.6;
     }
-}
-
-.accent-text {
-    color: var(--accent-color);
 }
 
 .cta-group {
@@ -163,7 +186,6 @@
     font-size: 0.85rem;
     transition: all 0.3s ease;
     clip-path: polygon(0 0, 100% 0, 92% 100%, 0 100%);
-    text-decoration: none;
 
     &.btn-primary {
         background-color: var(--accent-color);
@@ -189,26 +211,28 @@
 }
 
 /* ==========================================================================
-   6. PURE CSS 3D CAMERA MODULE (COLOR MATCHED & INTERACTIVE)
+   6. PURE CSS 3D CAMERA MODULE
    ========================================================================== */
 
 .hero-visuals {
-  flex: 0 0 50%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  position: relative;
-  z-index: 10;
+    flex: 0 0 50%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+    /* LOWERED Z-INDEX: So your "Trusted By" section scrolls over top of the camera */
+    z-index: 1;
 }
 
 .camera-wrapper {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  perspective: 1200px; 
-  width: 100%;
-  animation: idleFloat 6s ease-in-out infinite;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    perspective: 1200px;
+    width: 100%;
+    animation: idleFloat 6s ease-in-out infinite;
 }
+
 .camera-wrapper::before {
     content: '';
     position: absolute;
@@ -221,209 +245,259 @@
 }
 
 @keyframes pulseAura {
-    0% { transform: scale(0.9); opacity: 0.08; }
-    100% { transform: scale(1.1); opacity: 0.18; }
+    0% {
+        transform: scale(0.9);
+        opacity: 0.08;
+    }
+
+    100% {
+        transform: scale(1.1);
+        opacity: 0.18;
+    }
 }
 
 @keyframes idleFloat {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-15px); }
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-15px);
+    }
 }
 
 .camera {
-  width: 520px;
-  height: 260px;
-  position: relative;
-  transform-style: preserve-3d;
-  filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.8));
-  /* 🔥 UPGRADE: Snappy, fluid transition for the mouse tracking */
-  transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
-  transform: scale(0.85);
+    width: 520px;
+    height: 260px;
+    position: relative;
+    transform-style: preserve-3d;
+    filter: drop-shadow(0 40px 60px rgba(0, 0, 0, 0.8));
+    transition: transform 0.15s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transform: scale(0.85);
 }
 
-/* INTERACTIVE HOVER EFFECTS */
 .camera:hover .camera-lens {
     box-shadow: 0 0 50px var(--accent-color), inset 0 0 30px rgba(255, 255, 255, 0.1);
 }
+
 .camera:hover .camera-digital-line {
-    animation: digitalPulse 0.5s infinite; /* Speeds up scanline when hovered */
+    animation: digitalPulse 0.5s infinite;
 }
 
-/* Darkened Chassis */
 .camera-core {
-  width: 360px;
-  height: 170px;
-  position: absolute;
-  right: 40px;
-  top: 45px;
-  /* Darkened to match the background better */
-  background: linear-gradient(145deg, #11182d, #050816);
-  border-radius: 90px 40px 40px 90px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  overflow: hidden;
-  backdrop-filter: blur(12px);
-  /* 🔥 UPGRADE: Internal glow matched to theme */
-  box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.02), 0 0 40px rgba(0, 0, 0, 0.5);
+    width: 360px;
+    height: 170px;
+    position: absolute;
+    right: 40px;
+    top: 45px;
+    background: linear-gradient(145deg, #131722, #050816);
+    border-radius: 90px 40px 40px 90px;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow: hidden;
+    backdrop-filter: blur(12px);
+    box-shadow: inset 0 0 25px rgba(255, 255, 255, 0.02), 0 0 40px rgba(0, 0, 0, 0.5);
 }
 
 .camera-core::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.05), transparent);
-  animation: scanner 4s linear infinite;
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    animation: scanner 4s linear infinite;
 }
 
 @keyframes scanner {
-  0% { transform: translateX(-100%) }
-  100% { transform: translateX(100%) }
+    0% {
+        transform: translateX(-100%)
+    }
+
+    100% {
+        transform: translateX(100%)
+    }
 }
 
 .camera-lens {
-  width: 170px;
-  height: 170px;
-  position: absolute;
-  right: -25px;
-  top: 0;
-  border-radius: 50%;
-  /* 🔥 UPGRADE: Lens uses Accent Color natively */
-  background: radial-gradient(circle, var(--accent-color), #06121f 55%, #000 75%);
-  border: 14px solid #1a2235;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 45px var(--accent-color), inset 0 0 30px rgba(255, 255, 255, 0.1);
-  animation: lensRotate 6s linear infinite; /* Sped up rotation */
+    width: 170px;
+    height: 170px;
+    position: absolute;
+    right: -25px;
+    top: 0;
+    border-radius: 50%;
+    background: radial-gradient(circle, var(--accent-color), #06121f 55%, #000 75%);
+    border: 14px solid #1a2235;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 45px var(--accent-color), inset 0 0 30px rgba(255, 255, 255, 0.1);
+    animation: lensRotate 6s linear infinite;
+    transition: all 0.3s ease;
 }
 
 @keyframes lensRotate {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
 }
 
 .camera-lens::before {
-  content: '';
-  width: 70px;
-  height: 70px;
-  border-radius: 50%;
-  background: radial-gradient(circle, #fff, var(--accent-color), #00131c);
-  box-shadow: 0 0 30px var(--accent-color);
+    content: '';
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    background: radial-gradient(circle, #fff, var(--accent-color), #00131c);
+    box-shadow: 0 0 30px var(--accent-color);
 }
 
 .camera::before {
-  content: '';
-  position: absolute;
-  width: 150px;
-  height: 150px;
-  background: #0b0f1a;
-  border: 10px solid #1a2235;
-  border-radius: 50%;
-  right: 25px;
-  top: 35px;
-  box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
+    content: '';
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: #0b0f1a;
+    border: 10px solid #1a2235;
+    border-radius: 50%;
+    right: 25px;
+    top: 35px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.5);
 }
 
 .camera::after {
-  content: '';
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  background: var(--accent-color);
-  border-radius: 50%;
-  right: 70px;
-  top: 80px;
-  box-shadow: 0 0 30px var(--accent-color);
-  animation: blink 1.5s infinite;
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    right: 70px;
+    top: 80px;
+    box-shadow: 0 0 30px var(--accent-color);
+    animation: blink 1.5s infinite;
 }
 
 @keyframes blink {
-  0%, 100% { opacity: 1; visibility: visible; }
-  50% { opacity: 0; visibility: hidden; }
+
+    0%,
+    100% {
+        opacity: 1;
+        visibility: visible;
+    }
+
+    50% {
+        opacity: 0;
+        visibility: hidden;
+    }
 }
 
 .camera-arm {
-  width: 180px;
-  height: 28px;
-  background: linear-gradient(90deg, #1f2840, #0d1228);
-  position: absolute;
-  left: -50px;
-  top: 95px;
-  border-radius: 20px;
-  transform: rotate(-15deg);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
+    width: 180px;
+    height: 28px;
+    background: linear-gradient(90deg, #1f2840, #0d1228);
+    position: absolute;
+    left: -50px;
+    top: 95px;
+    border-radius: 20px;
+    transform: rotate(-15deg);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.8);
 }
 
 .camera-arm::before {
-  content: '';
-  position: absolute;
-  width: 70px;
-  height: 70px;
-  background: linear-gradient(145deg, #151c2e, #0b1020);
-  border-radius: 20px;
-  left: -40px;
-  top: -22px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+    content: '';
+    position: absolute;
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(145deg, #151c2e, #0b1020);
+    border-radius: 20px;
+    left: -40px;
+    top: -22px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .camera-support {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  left: -80px;
-  top: 72px;
-  border-radius: 30px;
-  background: linear-gradient(145deg, #0b0f1a, #050816);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transform: rotate(45deg);
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    left: -80px;
+    top: 72px;
+    border-radius: 30px;
+    background: linear-gradient(145deg, #0b0f1a, #050816);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transform: rotate(45deg);
 }
 
 .camera-ai-ring {
-  position: absolute;
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  border: 1px dashed var(--accent-color);
-  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5); /* Inner depth */
-  top: -70px;
-  left: 60px;
-  animation: ringRotate 15s linear infinite; /* Sped up */
-  pointer-events: none;
-  opacity: 0.6;
+    position: absolute;
+    width: 420px;
+    height: 420px;
+    border-radius: 50%;
+    border: 1px dashed var(--accent-color);
+    box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.5);
+    top: -70px;
+    left: 60px;
+    animation: ringRotate 15s linear infinite;
+    pointer-events: none;
+    opacity: 0.6;
 }
 
 .camera-ai-ring::before,
 .camera-ai-ring::after {
-  content: '';
-  position: absolute;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--accent-color);
-  box-shadow: 0 0 20px var(--accent-color);
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 20px var(--accent-color);
 }
 
-.camera-ai-ring::before { top: 40px; left: 190px; }
-.camera-ai-ring::after { bottom: 40px; right: 190px; }
+.camera-ai-ring::before {
+    top: 40px;
+    left: 190px;
+}
+
+.camera-ai-ring::after {
+    bottom: 40px;
+    right: 190px;
+}
 
 @keyframes ringRotate {
-  0% { transform: rotate(0deg) }
-  100% { transform: rotate(360deg) }
+    0% {
+        transform: rotate(0deg)
+    }
+
+    100% {
+        transform: rotate(360deg)
+    }
 }
 
 .camera-digital-line {
-  position: absolute;
-  width: 140px;
-  height: 3px;
-  background: var(--accent-color);
-  left: 120px;
-  top: 85px;
-  box-shadow: 0 0 18px var(--accent-color);
-  animation: digitalPulse 1.2s infinite;
+    position: absolute;
+    width: 140px;
+    height: 3px;
+    background: var(--accent-color);
+    left: 120px;
+    top: 85px;
+    box-shadow: 0 0 18px var(--accent-color);
+    animation: digitalPulse 1.2s infinite;
 }
 
 @keyframes digitalPulse {
-  0%, 100% { opacity: 1; transform: scaleX(1) }
-  50% { opacity: 0.4; transform: scaleX(1.4) }
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scaleX(1)
+    }
+
+    50% {
+        opacity: 0.4;
+        transform: scaleX(1.4)
+    }
 }
 
 /* Responsive adjustments */
@@ -434,22 +508,36 @@
         text-align: center;
         margin-top: 40px;
     }
+
     .hero-content {
         text-align: center;
-        h1 { font-size: 2.8rem; }
+
+        h1 {
+            font-size: 2.5rem;
+        }
     }
+
     .hero-visuals {
         justify-content: center;
         margin-top: 40px;
     }
+
     .camera {
         transform: scale(0.6) !important;
     }
+
     .cta-group {
         justify-content: center;
     }
 }
+
 @media(max-width: 768px) {
-    .hud-wrapper { padding: 20px; }
-    .hud-top, .hud-bottom { font-size: 0.75rem; }
+    .hud-wrapper {
+        padding: 20px;
+    }
+
+    .hud-top,
+    .hud-bottom {
+        font-size: 0.75rem;
+    }
 }

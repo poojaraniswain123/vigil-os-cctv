@@ -21,11 +21,9 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   ]
 })
 export class HeroComponent implements OnInit, OnDestroy {
-  // --- System Boot Signals ---
   protected bootText = signal<string>('');
   protected isBooted = signal<boolean>(false);
 
-  // --- Live Clock Signals ---
   private currentTime = signal<Date>(new Date());
   protected formattedTimestamp = computed(() => {
     const d = this.currentTime();
@@ -41,31 +39,37 @@ export class HeroComponent implements OnInit, OnDestroy {
     'OPENING LENS BLADES...'
   ];
 
-  // --- 3D Camera Math & Interaction Signals ---
   cameraTransform = signal<string>('translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)');
+  cameraOpacity = signal<number>(1);
 
   @HostListener('document:mousemove', ['$event'])
   onMouseMove(e: MouseEvent) {
-    if (window.scrollY > 50) return; 
-    
-    // INCREASED INTERACTIVITY: Divided by 40 instead of 80 to make it track the mouse much faster!
+    if (window.scrollY > 50) return;
+
     const x = (window.innerWidth / 2 - e.clientX) / 35;
     const y = (window.innerHeight / 2 - e.clientY) / 35;
-    
+
     this.cameraTransform.set(`translateX(40px) scale(0.75) rotateY(${x}deg) rotateX(${y}deg)`);
   }
 
   @HostListener('window:scroll', ['$event'])
   onScroll() {
     const scrollValue = window.scrollY || document.documentElement.scrollTop;
-    
+
+    // 1. VANISHING: Fades out completely by 600px of scrolling
+    const newOpacity = Math.max(0, 1 - (scrollValue / 600));
+    this.cameraOpacity.set(newOpacity);
+
     if (scrollValue > 5) {
-      const rotateY = scrollValue * 0.15; 
+      const rotateY = scrollValue * 0.15;
       const rotateX = Math.sin(scrollValue * 0.02) * 15;
-      const moveX = 40 + Math.sin(scrollValue * 0.02) * 50; 
-      
-      const moveY = scrollValue * 0.6; 
-      const scale = 0.75 + (scrollValue * 0.0003);
+
+      // 2. MOVES TO MIDDLE: Subtracts from 40px to pull the camera leftwards (center)
+      const moveX = 40 - (scrollValue * 0.2);
+
+      // 3. SCROLLS WITH PAGE: Lowered from 0.95 to 0.25 so it scrolls UP with the page naturally
+      const moveY = scrollValue * 0.25;
+      const scale = 0.75 - (scrollValue * 0.0001); // Shrinks slightly as it fades
 
       this.cameraTransform.set(`
         translateX(${moveX}px)
@@ -79,7 +83,6 @@ export class HeroComponent implements OnInit, OnDestroy {
     }
   }
 
-  // --- Lifecycle Hooks ---
   ngOnInit(): void {
     this.runBootSequence();
     this.startLiveFeedClock();
