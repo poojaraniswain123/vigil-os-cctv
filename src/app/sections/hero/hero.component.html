@@ -1,7 +1,9 @@
 <section class="hero-container">
 
-    <canvas #particlesCanvas class="particles"></canvas>
+    <!-- particles -->
+    <canvas id="particles"></canvas>
 
+    <!-- futuristic grid -->
     <div class="grid"></div>
 
     <div class="hero-middle">
@@ -11,30 +13,36 @@
         <div class="hero-content">
 
             <div class="status-chip">
-                <span class="dot"></span>
                 AI CCTV SECURITY ACTIVE
             </div>
 
             <h1>
-                INTELLIGENT
-                <span class="accent-text">SURVEILLANCE</span>
-                SYSTEM
+                INTELLIGENT<br>
+
+                <span class="accent-text">
+                    SURVEILLANCE
+                </span>
+
+                ARCHITECTURE
             </h1>
 
             <p>
-                Autonomous threat analytics with AI-powered
-                monitoring and high precision CCTV tracking.
+                Autonomous threat analytics.
+                High-precision tactical tracking hardware.
+                Enterprise network security matrices.
             </p>
 
             <div class="cta-group">
 
-                <button class="btn btn-primary">
-                    INITIALIZE
-                </button>
+                <a href="#"
+                    class="btn btn-primary">
+                    INITIALIZE DEPLOYMENT
+                </a>
 
-                <button class="btn btn-secondary">
-                    VIEW LIVE
-                </button>
+                <a href="#"
+                    class="btn btn-secondary">
+                    VIEW ARCHIVE // ACTIVE
+                </a>
 
             </div>
 
@@ -46,35 +54,39 @@
 
             <div class="camera-wrapper">
 
-                <!-- Rings -->
+                <!-- rings -->
 
                 <div class="ring ring1"></div>
                 <div class="ring ring2"></div>
                 <div class="ring ring3"></div>
 
-                <!-- Camera -->
+                <!-- camera -->
 
-                <div
-                    class="camera"
-                    [ngClass]="cameraPosition"
-                    (click)="changeAngle()"
-                >
+                <div class="camera"
+                    [ngClass]="cameraClass"
+                    (click)="changeAngle()">
 
+                    <!-- mount -->
                     <div class="mount"></div>
 
+                    <!-- body -->
                     <div class="body">
 
                         <div class="shine"></div>
 
+                        <!-- indicators -->
                         <div class="indicator i1"></div>
                         <div class="indicator i2"></div>
 
+                        <!-- lens -->
                         <div class="lens-box">
 
                             <div class="lens-outer">
 
                                 <div class="lens">
+
                                     <div class="scan"></div>
+
                                 </div>
 
                             </div>
@@ -83,18 +95,27 @@
 
                     </div>
 
+                    <!-- laser -->
                     <div class="laser"></div>
 
                 </div>
 
-                <!-- HUD -->
+                <!-- hud -->
 
                 <div class="hud hud1">
                     AI TRACKING ACTIVE
                 </div>
 
                 <div class="hud hud2">
-                    FACE DETECTION 99%
+                    FACE DETECTION : 99%
+                </div>
+
+                <div class="hud hud3">
+                    LIVE CCTV MONITORING
+                </div>
+
+                <div class="info">
+                    CLICK CAMERA TO CHANGE ANGLE
                 </div>
 
             </div>
