@@ -34,7 +34,7 @@ implements AfterViewInit, OnDestroy {
 
   protected cameraTransform =
     signal<string>(
-      'translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)'
+      'rotateY(0deg) rotateX(0deg)'
     );
 
   // =========================
@@ -88,14 +88,12 @@ implements AfterViewInit, OnDestroy {
   onMouseMove(e: MouseEvent) {
 
     const x =
-      (window.innerWidth / 2 - e.clientX) / 80;
+      (window.innerWidth / 2 - e.clientX) / 60;
 
     const y =
-      (window.innerHeight / 2 - e.clientY) / 80;
+      (window.innerHeight / 2 - e.clientY) / 60;
 
     this.cameraTransform.set(`
-      translateX(40px)
-      scale(0.75)
       rotateY(${x}deg)
       rotateX(${y}deg)
     `);
@@ -139,7 +137,7 @@ implements AfterViewInit, OnDestroy {
   }
 
   // =========================
-  // ANIMATE PARTICLES
+  // PARTICLE ANIMATION
   // =========================
 
   private animateParticles(): void {
