@@ -1,149 +1,317 @@
- /* =========================
-            CAMERA ANGLE CHANGE
-        ========================= */
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  AfterViewInit,
+  ViewChild,
+  ElementRef,
+  signal,
+  computed
+} from '@angular/core';
 
-        const camera =
-            document.getElementById("camera");
+class Particle {
 
-        let angle = 0;
+  x: number;
+  y: number;
+  size: number;
+  speedY: number;
+  opacity: number;
 
-        camera.addEventListener("click", () => {
+  constructor(
+    private canvas: HTMLCanvasElement
+  ) {
 
-            angle++;
+    this.x = Math.random() * canvas.width;
+    this.y = Math.random() * canvas.height;
+    this.size = Math.random() * 2 + 1;
+    this.speedY = Math.random() * 1 + 0.2;
+    this.opacity = Math.random();
+  }
 
-            if(angle === 1){
+  update() {
 
-                camera.className =
-                    "camera left";
+    this.y -= this.speedY;
 
-            }
+    if (this.y < 0) {
 
-            else if(angle === 2){
+      this.y = this.canvas.height;
 
-                camera.className =
-                    "camera right";
+      this.x =
+        Math.random() * this.canvas.width;
+    }
+  }
 
-            }
+  draw(ctx: CanvasRenderingContext2D) {
 
-            else{
+    ctx.fillStyle =
+      `rgba(0,255,255,${this.opacity})`;
 
-                camera.className =
-                    "camera center";
+    ctx.beginPath();
 
-                angle = 0;
+    ctx.arc(
+      this.x,
+      this.y,
+      this.size,
+      0,
+      Math.PI * 2
+    );
 
-            }
+    ctx.fill();
+  }
+}
 
-        });
+@Component({
+  selector: 'app-hero',
+  standalone: true,
+  imports: [],
+  templateUrl: './hero.component.html',
+  styleUrl: './hero.component.scss'
+})
+export class HeroComponent
+  implements OnInit, OnDestroy, AfterViewInit {
 
-        /* =========================
-            PARTICLES
-        ========================= */
+  @ViewChild('particlesCanvas')
+  particlesCanvas!: ElementRef<HTMLCanvasElement>;
 
-        const canvas =
-            document.getElementById("particles");
+  protected bootText = signal<string>('');
+  protected isBooted = signal<boolean>(false);
 
-        const ctx =
-            canvas.getContext("2d");
+  protected cameraPosition =
+    signal<'center' | 'left' | 'right'>('center');
 
-        canvas.width =
-            window.innerWidth;
+  cameraTransform = signal<string>(
+    'translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)'
+  );
 
-        canvas.height =
-            window.innerHeight;
+  private currentTime =
+    signal<Date>(new Date());
 
-        let particles = [];
+  protected formattedTimestamp =
+    computed(() => {
 
-        class Particle{
+      const d = this.currentTime();
 
-            constructor(){
+      return `
+        ${d.toLocaleDateString()}
+        //
+        ${d.toLocaleTimeString()}
+      `;
+    });
 
-                this.x =
-                    Math.random() * canvas.width;
+  private timerId: any;
 
-                this.y =
-                    Math.random() * canvas.height;
+  private angle = 0;
 
-                this.size =
-                    Math.random() * 2 + 1;
+  private ctx!: CanvasRenderingContext2D;
 
-                this.speedY =
-                    Math.random() * 1 + .2;
+  private particles: Particle[] = [];
 
-                this.opacity =
-                    Math.random();
+  private animationFrameId: number = 0;
 
-            }
+  private bootPhrases = [
+    'INITIALIZING CORE_VIGIL_OS... DONE',
+    'CONNECTING TO SURVEILLANCE MESH... SECURE',
+    'SYNCING APERTURE MOTORS... CALIBRATED',
+    'DECRYPTING VIDEO STREAM SUBSYSTEMS... SUCCESS',
+    'OPENING LENS BLADES...'
+  ];
 
-            update(){
+  ngOnInit(): void {
 
-                this.y -= this.speedY;
+    this.runBootSequence();
 
-                if(this.y < 0){
+    this.startLiveFeedClock();
+  }
 
-                    this.y = canvas.height;
+  ngAfterViewInit(): void {
 
-                    this.x =
-                        Math.random() * canvas.width;
+    this.initializeParticles();
+  }
 
-                }
+  ngOnDestroy(): void {
 
-            }
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
 
-            draw(){
+    cancelAnimationFrame(this.animationFrameId);
+  }
 
-                ctx.fillStyle =
-                    `rgba(0,255,255,${this.opacity})`;
+  changeCameraAngle(): void {
 
-                ctx.beginPath();
+    this.angle++;
 
-                ctx.arc(
-                    this.x,
-                    this.y,
-                    this.size,
-                    0,
-                    Math.PI * 2
-                );
+    if (this.angle === 1) {
 
-                ctx.fill();
+      this.cameraPosition.set('left');
+    }
+    else if (this.angle === 2) {
 
-            }
+      this.cameraPosition.set('right');
+    }
+    else {
 
-        }
+      this.cameraPosition.set('center');
 
-        for(let i = 0; i < 120; i++){
+      this.angle = 0;
+    }
+  }
 
-            particles.push(new Particle());
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
 
-        }
+    if (window.scrollY > 50) return;
 
-        function animate(){
+    const x =
+      (window.innerWidth / 2 - e.clientX) / 80;
 
-            ctx.clearRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
+    const y =
+      (window.innerHeight / 2 - e.clientY) / 80;
 
-            particles.forEach(p => {
+    this.cameraTransform.set(`
+      translateX(40px)
+      scale(0.75)
+      rotateY(${x}deg)
+      rotateX(${y}deg)
+    `);
+  }
 
-                p.update();
-                p.draw();
+  @HostListener('window:scroll')
+  onScroll(): void {
 
-            });
+    const scrollValue =
+      window.scrollY ||
+      document.documentElement.scrollTop;
 
-            requestAnimationFrame(animate);
+    if (scrollValue > 5) {
 
-        }
+      const rotateY =
+        scrollValue * 0.15;
 
-        animate();
+      const rotateX =
+        Math.sin(scrollValue * 0.02) * 15;
 
-        /* resize */
+      const moveX =
+        40 + Math.sin(scrollValue * 0.02) * 50;
 
-        window.addEventListener("resize", () => {
+      const moveY =
+        scrollValue * 0.6;
 
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+      const scale =
+        0.75 + (scrollValue * 0.0003);
 
-        });
+      this.cameraTransform.set(`
+        translateX(${moveX}px)
+        translateY(${moveY}px)
+        scale(${scale})
+        rotateY(${rotateY}deg)
+        rotateX(${rotateX}deg)
+      `);
+    }
+    else {
+
+      this.cameraTransform.set(`
+        translateX(40px)
+        scale(0.75)
+        rotateY(-15deg)
+        rotateX(5deg)
+      `);
+    }
+  }
+
+  @HostListener('window:resize')
+  onResize(): void {
+
+    const canvas =
+      this.particlesCanvas.nativeElement;
+
+    canvas.width = window.innerWidth;
+
+    canvas.height = window.innerHeight;
+  }
+
+  private initializeParticles(): void {
+
+    const canvas =
+      this.particlesCanvas.nativeElement;
+
+    this.ctx =
+      canvas.getContext('2d')!;
+
+    canvas.width = window.innerWidth;
+
+    canvas.height = window.innerHeight;
+
+    this.particles = [];
+
+    for (let i = 0; i < 120; i++) {
+
+      this.particles.push(
+        new Particle(canvas)
+      );
+    }
+
+    this.animateParticles();
+  }
+
+  private animateParticles(): void {
+
+    const canvas =
+      this.particlesCanvas.nativeElement;
+
+    this.ctx.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    this.particles.forEach(particle => {
+
+      particle.update();
+
+      particle.draw(this.ctx);
+    });
+
+    this.animationFrameId =
+      requestAnimationFrame(() =>
+        this.animateParticles()
+      );
+  }
+
+  private runBootSequence(): void {
+
+    let phase = 0;
+
+    const interval = setInterval(() => {
+
+      if (phase < this.bootPhrases.length) {
+
+        this.bootText.set(
+          this.bootPhrases[phase]
+        );
+
+        phase++;
+      }
+      else {
+
+        clearInterval(interval);
+
+        this.isBooted.set(true);
+      }
+
+    }, 450);
+  }
+
+  private startLiveFeedClock(): void {
+
+    this.timerId = setInterval(() => {
+
+      this.currentTime.set(
+        new Date()
+      );
+
+    }, 1000);
+  }
+}
