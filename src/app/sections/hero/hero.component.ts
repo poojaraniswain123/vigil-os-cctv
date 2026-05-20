@@ -1,43 +1,110 @@
 import {
+  Component,
+  signal,
+  HostListener,
+  ElementRef,
+  ViewChild,
   AfterViewInit,
-  Component
+  OnDestroy
 } from '@angular/core';
 
 @Component({
   selector: 'app-hero',
+  standalone: true,
+  imports: [],
   templateUrl: './hero.component.html',
-  styleUrls: ['./hero.component.scss']
+  styleUrl: './hero.component.scss'
 })
-export class HeroComponent implements AfterViewInit {
 
-  cameraClass = 'center';
+export class HeroComponent
+implements AfterViewInit, OnDestroy {
 
-  private angle = 0;
+  // =========================
+  // CAMERA ANGLE
+  // =========================
 
-  changeAngle(): void {
+  protected cameraAngle =
+    signal<'left' | 'center' | 'right'>('center');
 
-    this.angle++;
+  private angleIndex = 0;
 
-    if (this.angle === 1) {
+  // =========================
+  // CAMERA TRANSFORM
+  // =========================
 
-      this.cameraClass = 'left';
+  protected cameraTransform =
+    signal<string>(
+      'translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)'
+    );
+
+  // =========================
+  // PARTICLES
+  // =========================
+
+  @ViewChild('particlesCanvas')
+  particlesCanvas!: ElementRef<HTMLCanvasElement>;
+
+  private ctx!: CanvasRenderingContext2D;
+
+  private particles: Particle[] = [];
+
+  private animationFrameId = 0;
+
+  // =========================
+  // CAMERA CLICK
+  // =========================
+
+  changeAngle() {
+
+    this.angleIndex++;
+
+    if (this.angleIndex === 1) {
+
+      this.cameraAngle.set('left');
 
     }
 
-    else if (this.angle === 2) {
+    else if (this.angleIndex === 2) {
 
-      this.cameraClass = 'right';
+      this.cameraAngle.set('right');
 
     }
 
     else {
 
-      this.cameraClass = 'center';
-      this.angle = 0;
+      this.cameraAngle.set('center');
+
+      this.angleIndex = 0;
 
     }
 
   }
+
+  // =========================
+  // MOUSE MOVE
+  // =========================
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+
+    const x =
+      (window.innerWidth / 2 - e.clientX) / 80;
+
+    const y =
+      (window.innerHeight / 2 - e.clientY) / 80;
+
+    this.cameraTransform.set(`
+      translateX(40px)
+      scale(0.75)
+      rotateY(${x}deg)
+      rotateX(${y}deg)
+    `);
+
+  }
+
+  // =========================
+  // INIT
+  // =========================
 
   ngAfterViewInit(): void {
 
@@ -45,118 +112,158 @@ export class HeroComponent implements AfterViewInit {
 
   }
 
-  initializeParticles(): void {
+  // =========================
+  // PARTICLES INIT
+  // =========================
+
+  private initializeParticles(): void {
 
     const canvas =
-      document.getElementById('particles') as HTMLCanvasElement;
+      this.particlesCanvas.nativeElement;
 
-    const ctx =
-      canvas.getContext('2d');
+    this.ctx =
+      canvas.getContext('2d')!;
 
-    if (!ctx) return;
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const particles: any[] = [];
-
-    class Particle {
-
-      x: number;
-      y: number;
-      size: number;
-      speedY: number;
-      opacity: number;
-
-      constructor() {
-
-        this.x =
-          Math.random() * canvas.width;
-
-        this.y =
-          Math.random() * canvas.height;
-
-        this.size =
-          Math.random() * 2 + 1;
-
-        this.speedY =
-          Math.random() * 1 + .2;
-
-        this.opacity =
-          Math.random();
-
-      }
-
-      update() {
-
-        this.y -= this.speedY;
-
-        if (this.y < 0) {
-
-          this.y = canvas.height;
-
-          this.x =
-            Math.random() * canvas.width;
-
-        }
-
-      }
-
-      draw() {
-
-        ctx.fillStyle =
-          `rgba(0,255,255,${this.opacity})`;
-
-        ctx.beginPath();
-
-        ctx.arc(
-          this.x,
-          this.y,
-          this.size,
-          0,
-          Math.PI * 2
-        );
-
-        ctx.fill();
-
-      }
-
-    }
+    this.resizeCanvas();
 
     for (let i = 0; i < 120; i++) {
 
-      particles.push(new Particle());
+      this.particles.push(
+        new Particle(canvas)
+      );
 
     }
 
-    const animate = () => {
+    this.animateParticles();
 
-      ctx.clearRect(
+  }
+
+  // =========================
+  // ANIMATE PARTICLES
+  // =========================
+
+  private animateParticles(): void {
+
+    const canvas =
+      this.particlesCanvas.nativeElement;
+
+    this.ctx.clearRect(
+      0,
+      0,
+      canvas.width,
+      canvas.height
+    );
+
+    this.particles.forEach(particle => {
+
+      particle.y -= particle.speedY;
+
+      if (particle.y < 0) {
+
+        particle.reset();
+
+        particle.y = canvas.height;
+
+      }
+
+      this.ctx.fillStyle =
+        `rgba(0,255,255,${particle.opacity})`;
+
+      this.ctx.beginPath();
+
+      this.ctx.arc(
+        particle.x,
+        particle.y,
+        particle.size,
         0,
-        0,
-        canvas.width,
-        canvas.height
+        Math.PI * 2
       );
 
-      particles.forEach((p: any) => {
-
-        p.update();
-        p.draw();
-
-      });
-
-      requestAnimationFrame(animate);
-
-    };
-
-    animate();
-
-    window.addEventListener('resize', () => {
-
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      this.ctx.fill();
 
     });
+
+    this.animationFrameId =
+      requestAnimationFrame(() =>
+        this.animateParticles()
+      );
+
+  }
+
+  // =========================
+  // RESIZE
+  // =========================
+
+  @HostListener('window:resize')
+  onResize() {
+
+    this.resizeCanvas();
+
+  }
+
+  private resizeCanvas(): void {
+
+    const canvas =
+      this.particlesCanvas.nativeElement;
+
+    canvas.width =
+      window.innerWidth;
+
+    canvas.height =
+      window.innerHeight;
+
+  }
+
+  // =========================
+  // DESTROY
+  // =========================
+
+  ngOnDestroy(): void {
+
+    cancelAnimationFrame(
+      this.animationFrameId
+    );
+
+  }
+
+}
+
+// =========================
+// PARTICLE CLASS
+// =========================
+
+class Particle {
+
+  x = 0;
+  y = 0;
+  size = 0;
+  speedY = 0;
+  opacity = 0;
+
+  constructor(
+    private canvas: HTMLCanvasElement
+  ) {
+
+    this.reset();
+
+  }
+
+  reset() {
+
+    this.x =
+      Math.random() * this.canvas.width;
+
+    this.y =
+      Math.random() * this.canvas.height;
+
+    this.size =
+      Math.random() * 2 + 1;
+
+    this.speedY =
+      Math.random() * 1 + .2;
+
+    this.opacity =
+      Math.random();
 
   }
 
