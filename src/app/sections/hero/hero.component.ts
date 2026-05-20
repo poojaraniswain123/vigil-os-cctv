@@ -8,7 +8,6 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.scss',
   animations: [
-    // Staggered fade and slide up for text elements inside the aperture lens
     trigger('contentFadeIn', [
       transition(':enter', [
         query('.hud-element', [
@@ -22,25 +21,17 @@ import { trigger, transition, style, animate, query, stagger } from '@angular/an
   ]
 })
 export class HeroComponent implements OnInit, OnDestroy {
-  // Signals for system boot sequence
+  // --- System Boot Signals ---
   protected bootText = signal<string>('');
   protected isBooted = signal<boolean>(false);
-  cameraOffset = signal<number>(0);
-  // Signal for live updating CCTV timestamp
+
+  // --- Live Clock Signals ---
   private currentTime = signal<Date>(new Date());
   protected formattedTimestamp = computed(() => {
     const d = this.currentTime();
     return `${d.toLocaleDateString()} // ${d.toLocaleTimeString()}`;
   });
-  @HostListener('window:scroll', ['$event'])
-  onScroll() {
-    // Multiplying by 0.35 creates a smooth, delayed floating effect
-    const scrollVal = window.scrollY;
-    this.cameraOffset.set(scrollVal * 0.4);
 
-    // ADD THIS LINE TEMPORARILY:
-    console.log('Scroll detected! Value:', scrollVal);
-  }
   private timerId: any;
   private bootPhrases = [
     'INITIALIZING CORE_VIGIL_OS... DONE',
@@ -50,6 +41,52 @@ export class HeroComponent implements OnInit, OnDestroy {
     'OPENING LENS BLADES...'
   ];
 
+  // --- 3D Camera Math & Interaction Signals ---
+ cameraTransform = signal<string>('translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)');
+
+  @HostListener('document:mousemove', ['$event'])
+  onMouseMove(e: MouseEvent) {
+    if (window.scrollY > 50) return; 
+    
+    // 2. Divided by 80 to make the camera feel heavier and smoother
+    const x = (window.innerWidth / 2 - e.clientX) / 80;
+    const y = (window.innerHeight / 2 - e.clientY) / 80;
+    
+    this.cameraTransform.set(`translateX(40px) scale(0.75) rotateY(${x}deg) rotateX(${y}deg)`);
+  }
+
+ @HostListener('window:scroll', ['$event'])
+  onScroll() {
+    // Grabs the scroll position (includes a fallback just in case)
+    const scrollValue = window.scrollY || document.documentElement.scrollTop;
+    
+    // 🩺 DIAGNOSTIC TEST: Open your browser console (F12). 
+    // If this always says '0' when you scroll, you have a Scroll Trap!
+    console.log('Scroll Position:', scrollValue); 
+    
+    if (scrollValue > 5) {
+      // UPGRADED MATH: Makes the camera spin and fly down much faster
+      const rotateY = scrollValue * 0.15; 
+      const rotateX = Math.sin(scrollValue * 0.02) * 15;
+      const moveX = 40 + Math.sin(scrollValue * 0.02) * 50; 
+      
+      // Multiplier increased to 0.6: Camera will move down 60% as fast as you scroll
+      const moveY = scrollValue * 0.6; 
+      const scale = 0.75 + (scrollValue * 0.0003);
+
+      this.cameraTransform.set(`
+        translateX(${moveX}px)
+        translateY(${moveY}px)
+        scale(${scale})
+        rotateY(${rotateY}deg)
+        rotateX(${rotateX}deg)
+      `);
+    } else {
+      this.cameraTransform.set('translateX(40px) scale(0.75) rotateY(-15deg) rotateX(5deg)');
+    }
+  }
+
+  // --- Lifecycle Hooks ---
   ngOnInit(): void {
     this.runBootSequence();
     this.startLiveFeedClock();
@@ -67,7 +104,6 @@ export class HeroComponent implements OnInit, OnDestroy {
         phase++;
       } else {
         clearInterval(interval);
-        // Mark as booted to slide open the lens blades!
         this.isBooted.set(true);
       }
     }, 450);
