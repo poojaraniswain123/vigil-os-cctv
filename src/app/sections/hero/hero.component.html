@@ -1,124 +1,121 @@
 <section class="hero-container">
 
-        <!-- particles -->
-        <canvas id="particles"></canvas>
+  <!-- PARTICLES -->
+  <canvas #particlesCanvas></canvas>
 
-        <!-- futuristic grid -->
-        <div class="grid"></div>
+  <!-- GRID -->
+  <div class="grid"></div>
 
-        <div class="hero-middle">
+  <div class="hero-middle">
 
-            <!-- LEFT CONTENT -->
+    <!-- LEFT CONTENT -->
 
-            <div class="hero-content">
+    <div class="hero-content">
 
-                <div class="status-chip">
-                    AI CCTV SECURITY ACTIVE
+      <div class="status-chip">
+        AI CCTV SECURITY ACTIVE
+      </div>
+
+      <h1>
+        INTELLIGENT <br>
+
+        <span class="accent-text">
+          SURVEILLANCE
+        </span>
+
+        ARCHITECTURE
+      </h1>
+
+      <p>
+        Autonomous threat analytics.
+        High-precision tactical tracking hardware.
+        Enterprise network security matrices.
+      </p>
+
+      <div class="cta-group">
+
+        <a class="btn btn-primary">
+          INITIALIZE DEPLOYMENT
+        </a>
+
+        <a class="btn btn-secondary">
+          VIEW ARCHIVE // ACTIVE
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- CAMERA SECTION -->
+
+    <div class="hero-visuals">
+
+      <div class="camera-wrapper">
+
+        <!-- RINGS -->
+
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+
+        <!-- CAMERA -->
+
+        <div
+          class="camera"
+          [class.left]="cameraPosition() === 'left'"
+          [class.center]="cameraPosition() === 'center'"
+          [class.right]="cameraPosition() === 'right'"
+          (click)="changeCameraAngle()">
+
+          <!-- MOUNT -->
+          <div class="mount"></div>
+
+          <!-- BODY -->
+          <div class="body">
+
+            <div class="shine"></div>
+
+            <!-- INDICATORS -->
+            <div class="indicator i1"></div>
+            <div class="indicator i2"></div>
+
+            <!-- LENS -->
+
+            <div class="lens-box">
+
+              <div class="lens-outer">
+
+                <div class="lens">
+
+                  <div class="scan"></div>
+
                 </div>
 
-                <h1>
-                    INTELLIGENT<br>
-                    <span class="accent-text">
-                        SURVEILLANCE
-                    </span>
-                    ARCHITECTURE
-                </h1>
-
-                <p>
-                    Autonomous threat analytics.
-                    High-precision tactical tracking hardware.
-                    Enterprise network security matrices.
-                </p>
-
-                <div class="cta-group">
-
-                    <a href="#"
-                        class="btn btn-primary">
-                        INITIALIZE DEPLOYMENT
-                    </a>
-
-                    <a href="#"
-                        class="btn btn-secondary">
-                        VIEW ARCHIVE // ACTIVE
-                    </a>
-
-                </div>
+              </div>
 
             </div>
 
-            <!-- RIGHT CAMERA -->
+          </div>
 
-            <div class="hero-visuals">
-
-                <div class="camera-wrapper">
-
-                    <!-- rings -->
-
-                    <div class="ring ring1"></div>
-                    <div class="ring ring2"></div>
-                    <div class="ring ring3"></div>
-
-                    <!-- camera -->
-
-                    <div class="camera center"
-                        id="camera">
-
-                        <!-- mount -->
-                        <div class="mount"></div>
-
-                        <!-- body -->
-                        <div class="body">
-
-                            <div class="shine"></div>
-
-                            <!-- indicators -->
-                            <div class="indicator i1"></div>
-                            <div class="indicator i2"></div>
-
-                            <!-- lens -->
-                            <div class="lens-box">
-
-                                <div class="lens-outer">
-
-                                    <div class="lens">
-
-                                        <div class="scan"></div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <!-- laser -->
-                        <div class="laser"></div>
-
-                    </div>
-
-                    <!-- hud -->
-
-                    <div class="hud hud1">
-                        AI TRACKING ACTIVE
-                    </div>
-
-                    <div class="hud hud2">
-                        FACE DETECTION : 99%
-                    </div>
-
-                    <div class="hud hud3">
-                        LIVE CCTV MONITORING
-                    </div>
-
-                    <div class="info">
-                        CLICK CAMERA TO CHANGE ANGLE
-                    </div>
-
-                </div>
-
-            </div>
+          <!-- LASER -->
+          <div class="laser"></div>
 
         </div>
 
-    </section>
+        <!-- HUD -->
+
+        <div class="hud hud1">
+          AI TRACKING ACTIVE
+        </div>
+
+        <div class="hud hud2">
+          FACE DETECTION : 99%
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
