@@ -19,13 +19,14 @@ import { LensRevealComponent } from './sections/lens-reveal/lens-reveal.componen
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
 import { AboutUsComponent } from './sections/about-us/about-us.component';
 import { CameraFleetComponent } from './sections/camera-fleet/camera-fleet.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent, StatsComponent, ServicesComponent, LiveFeedMockupComponent, HowItWorksComponent, VisionShowcaseComponent, PricingComponent, FaqComponent, ContactComponent, LensRevealComponent, NavbarComponent, AboutUsComponent, CameraFleetComponent],
+  imports: [RouterOutlet, CursorComponent, ParallaxDirective, HeroComponent, ClientLogosComponent, StatsComponent, ServicesComponent, LiveFeedMockupComponent, HowItWorksComponent, VisionShowcaseComponent, PricingComponent, FaqComponent, ContactComponent, LensRevealComponent, NavbarComponent, AboutUsComponent, CameraFleetComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
