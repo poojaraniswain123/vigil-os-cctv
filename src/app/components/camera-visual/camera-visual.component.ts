@@ -15,7 +15,7 @@ export class CameraVisualComponent implements OnInit, OnDestroy, AfterViewInit {
   @ViewChild('cameraCanvas', { static: true }) canvasRef!: ElementRef<HTMLCanvasElement>;
 
   private readonly TOTAL_FRAMES = 80;
-  private readonly SCROLL_MAX = 6000;
+  private readonly SCROLL_MAX = 3000;
   private images: HTMLImageElement[] = [];
   private loaded: boolean[] = new Array(80).fill(false);
   private loadedCount = 0;
