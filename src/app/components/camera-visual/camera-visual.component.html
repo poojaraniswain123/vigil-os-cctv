@@ -1,5 +1,18 @@
 <div class="camera-parallax-layer" [style.opacity]="cameraOpacity()" [style.transform]="parallaxTransform()">
     <div class="camera-wrapper">
+
+        <!-- HUD Overlay (Recording text and target corners) -->
+        <div class="camera-hud" [style.transform]="cameraTransform()">
+            <div class="target-corner top-left"></div>
+            <div class="target-corner bottom-right"></div>
+            <div class="rec-info">
+                <span class="dot"></span>
+                REC // 00:{{currentSec()}}:{{currentMs()}}
+            </div>
+            <div class="scanning-line"></div>
+        </div>
+
+        <!-- YOUR ORIGINAL CAMERA STRUCTURE -->
         <div class="camera" [style.transform]="cameraTransform()">
             <div class="camera-ai-ring"></div>
             <div class="camera-support"></div>
